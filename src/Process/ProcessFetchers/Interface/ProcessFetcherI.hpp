@@ -1,7 +1,7 @@
 #ifndef PROCESS_FETCHER_HPP
 #define PROCESS_FETCHER_HPP
 
-#include "Proccess/Objects/Process.hpp"
+#include "Process/Objects/Process.hpp"
 #include <vector>
 #include <expected>
 

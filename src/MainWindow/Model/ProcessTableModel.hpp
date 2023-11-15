@@ -1,7 +1,7 @@
 #ifndef PROCESS_TABLE_MODEL_HPP
 #define PROCESS_TABLE_MODEL_HPP
 
-#include "Proccess/ProcessFetchers/Interface/ProcessFetcherI.hpp"
+#include "Process/ProcessFetchers/Interface/ProcessFetcherI.hpp"
 #include <memory>
 #include <QAbstractTableModel>
 
@@ -52,7 +52,7 @@ public:
   Qt::ItemFlags flags(const QModelIndex &index) const override;
   void refresh();
 private:
-  static const int nColumns = 5;
+  static const int nColumns = 3;
   std::unique_ptr< ProcessFetcherI > processFetcher_;
   std::vector< Process > processes_;
 };
