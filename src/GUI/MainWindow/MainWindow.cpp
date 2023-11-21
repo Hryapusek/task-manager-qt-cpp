@@ -4,11 +4,11 @@
 #include "Process/ProcessFetchers/Test/ProcessFetcherTest.hpp"
 
 MainWindow::MainWindow() :
-  ui_(std::make_unique< Ui::MainWindow >()),
-  actionsHolder_(std::make_unique< details_::ActionsHolder >(this))
+  ui_(std::make_unique< Ui::MainWindow >())
 {
   using namespace details_;
   ui_->setupUi(this);
+  actionsHolder_ = std::make_unique< details_::ActionsHolder >(this);
   auto fetcher = std::make_unique< ProcessFetcherTest >();
   model_ = std::make_unique< ProcessTableModel >(std::move(fetcher));
   ui_->processTableView->setModel(model_.get());
