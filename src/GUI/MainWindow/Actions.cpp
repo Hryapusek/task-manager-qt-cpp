@@ -9,7 +9,7 @@ namespace details_
     mw_(mw),
     menu_(std::make_unique< QMenu >())
   {
-    killAction_ = std::make_unique< ConditionAction >(QString::fromUtf8("Kill"));
+    killAction_ = std::make_unique< ConditionAction >(tr("Kill"));
     killAction_->setIcon(mw->style()->standardIcon(QStyle::SP_DialogCancelButton));
     killAction_->addCheckFunction(
       [mw = this->mw_]() -> bool {
