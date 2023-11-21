@@ -10,8 +10,8 @@ MainWindow::MainWindow() :
   ui_->setupUi(this);
   actionsHolder_ = std::make_unique< details_::ActionsHolder >(this);
   auto fetcher = std::make_unique< ProcessFetcherTest >();
-  model_ = std::make_unique< ProcessTableModel >(std::move(fetcher));
-  ui_->processTableView->setModel(model_.get());
+  processTableModel_ = std::make_unique< ProcessTableModel >(std::move(fetcher));
+  ui_->processTableView->setModel(processTableModel_.get());
   ui_->processTableView->setSelectionBehavior(QAbstractItemView::SelectionBehavior::SelectRows);
   ui_->processTableView->setSelectionMode(QAbstractItemView::SelectionMode::ExtendedSelection);
   ui_->processTableView->setContextMenuPolicy(Qt::ContextMenuPolicy::CustomContextMenu);
