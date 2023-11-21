@@ -1,4 +1,5 @@
 #include "ProcessTableModel.hpp"
+#include <QtDebug>
 
 ProcessTableModel::ProcessTableModel(std::unique_ptr< ProcessFetcherI > processFetcher) :
   processFetcher_(std::move(processFetcher))
@@ -40,6 +41,7 @@ QVariant ProcessTableModel::data(const QModelIndex &index, int role) const
         return QString::fromStdString(process.cmd());
 
       default:
+        qDebug() << index.row() << " " << index.column() << '\n';
         return QVariant();
     }
   }
@@ -60,4 +62,20 @@ Qt::ItemFlags ProcessTableModel::flags(const QModelIndex &index) const
 {
   using flags = Qt::ItemFlag;
   return (Qt::ItemFlags() | flags::ItemIsEnabled | flags::ItemIsSelectable) & ~flags::ItemIsEditable;
+}
+
+std::expected< void, std::string > ProcessTableModel::kill(int pid)
+{
+  auto res = processFetcher_->kill(pid);
+  if (!res)
+    return res;
+  auto processToRemove = std::ranges::find_if(processes_, [pid](auto proc) {
+    return proc.pid() == pid;
+  });
+  assert(processToRemove != processes_.end());
+  auto deletedRowNum = std::distance(processes_.begin(), processToRemove);
+  processes_.erase(processToRemove);
+  removeRow(deletedRowNum);
+  layoutChanged();
+  return {};
 }
