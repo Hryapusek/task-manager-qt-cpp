@@ -45,7 +45,7 @@ public:
 private:
   friend class details_::ActionsHolder;
   std::unique_ptr< Ui::MainWindow > ui_;
-  std::unique_ptr< ProcessTableModel > model_;
+  std::unique_ptr< ProcessTableModel > processTableModel_;
   std::unique_ptr< details_::ActionsHolder > actionsHolder_;
 };
 
