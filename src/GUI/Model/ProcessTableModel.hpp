@@ -43,6 +43,10 @@ public:
         std::unreachable();
       }
     }
+    static Column_ lastColumn()
+    {
+      return Column_::CMD;
+    }
   };
   ProcessTableModel(std::unique_ptr< ProcessFetcherI > processFetcher);
   int rowCount(const QModelIndex &parent) const override;
@@ -50,7 +54,7 @@ public:
   QVariant data(const QModelIndex &index, int role) const override;
   QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
   Qt::ItemFlags flags(const QModelIndex &index) const override;
-  std::expected< void, std::string > kill(int pid) const;
+  std::expected< void, std::string > kill(int pid);
   void refresh();
 private:
   static const int nColumns = 3;
