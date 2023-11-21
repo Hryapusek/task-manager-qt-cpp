@@ -1,6 +1,6 @@
 #include "MainWindow.hpp"
-#include "UiMainWindow.hpp" 
-#include "Model/ProcessTableModel.hpp"
+#include "Ui/UiMainWindow.hpp" 
+#include "GUI/Model/ProcessTableModel.hpp"
 #include "Process/ProcessFetchers/Test/ProcessFetcherTest.hpp"
 
 MainWindow::MainWindow() :
@@ -12,6 +12,8 @@ MainWindow::MainWindow() :
   ui_->processTableView->setModel(model_.get());
   ui_->processTableView->setSelectionBehavior(QAbstractItemView::SelectionBehavior::SelectRows);
   ui_->processTableView->setSelectionMode(QAbstractItemView::SelectionMode::ExtendedSelection);
+  ui_->processTableView->setContextMenuPolicy(Qt::ContextMenuPolicy::CustomContextMenu);
+  connect(this, &QWidget::customContextMenuRequested, actions_.get(), &Actions::showMenu);
 }
 
 MainWindow::~MainWindow()
