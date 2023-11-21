@@ -16,12 +16,17 @@ public:
   /**
    * @brief Sets isEnabled with respect to conditions.
    */
-  void updateEnabled();
+  void updateIsEnabledFlag();
   /**
-   * @return true if ALL the conditions are met\
-   * @return false otherwise
+   * @return True if ALL the conditions are met\
+   * @return False otherwise
    */
   bool areConditionsMet();
+  /**
+   * @brief Triggers if areConditionsMet() == true.\
+   * @brief Does nothing otherwise
+   */
+  void checkAndTrigger();
 
 private:
   std::vector< std::function< bool() > > conditions_;
