@@ -1,10 +1,10 @@
 target_sources(${target} PUBLIC
-  MainWindow/Model/ProcessTableModel.cpp
-  MainWindow/Model/ProcessTableModel.hpp
+  GUI/Model/ProcessTableModel.cpp
+  GUI/Model/ProcessTableModel.hpp
   
-  MainWindow/MainWindow.cpp
-  MainWindow/MainWindow.hpp
-  MainWindow/UiMainWindow.hpp
+  GUI/MainWindow/MainWindow.cpp
+  GUI/MainWindow/MainWindow.hpp
+  GUI/MainWindow/Ui/UiMainWindow.hpp
   
   Process/Objects/Process.cpp
   Process/Objects/Process.hpp
