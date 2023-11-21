@@ -28,7 +28,67 @@ void ConditionAction::checkAndTrigger()
     activate(QAction::ActionEvent::Trigger);
 }
 
+
 #ifdef GTEST_TESTING
 #include <gtest/gtest.h>
+TEST(ConditionAction, basics)
+{
+  {
+    ConditionAction action;
+    bool triggered = false;
+    QObject::connect(&action, &ConditionAction::triggered,
+      [&triggered]() {
+      triggered = true;
+    });
+
+    action.trigger();
+    EXPECT_TRUE(triggered);
+    triggered = false;
+
+    action.addCheckFunction([]() {
+      return false;
+    });
+
+    action.trigger();
+    EXPECT_TRUE(triggered);
+    triggered = false;
+
+    action.checkAndTrigger();
+    EXPECT_FALSE(triggered);
+    triggered = false;
+
+    action.addCheckFunction([]() {
+      return true;
+    });
+
+    action.checkAndTrigger();
+    EXPECT_FALSE(triggered);
+    triggered = false;
+  }
+  {
+    ConditionAction action;
+    bool triggered = false;
+    QObject::connect(&action, &ConditionAction::triggered,
+      [&triggered]() {
+      triggered = true;
+    });
+
+    action.trigger();
+    EXPECT_TRUE(triggered);
+    triggered = false;
+
+    action.addCheckFunction([]() {
+      return true;
+    });
+
+    action.addCheckFunction([]() {
+      return true;
+    });
+
+    action.trigger();
+    EXPECT_TRUE(triggered);
+    triggered = false;
+  }
+}
 
 #endif
