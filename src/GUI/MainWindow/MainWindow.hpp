@@ -2,6 +2,7 @@
 #define MAIN_WINDOW_HPP
 
 #include <QMainWindow>
+#include <QShortcut>
 #include <memory>
 #include "GUI/Model/ProcessTableModel.hpp"
 #include "Utils/ConditionAction.hpp"
@@ -27,8 +28,10 @@ namespace details_
     MainWindow *mw_;
     std::unique_ptr< QMenu > menu_;
     std::unique_ptr< ConditionAction > killAction_;
+    std::unique_ptr< QShortcut > killActShcut_;
     std::unique_ptr< ConditionAction > infoAction_;
     std::vector< ConditionAction * > actionsHolder_;
+    void createKillAction();
   };
 }
 
