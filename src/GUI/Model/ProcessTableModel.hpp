@@ -50,6 +50,7 @@ public:
   QVariant data(const QModelIndex &index, int role) const override;
   QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
   Qt::ItemFlags flags(const QModelIndex &index) const override;
+  std::expected< void, std::string > kill(int pid) const;
   void refresh();
 private:
   static const int nColumns = 3;
