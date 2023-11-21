@@ -1,6 +1,7 @@
 #include "ProcessFetcherTest.hpp"
+#include <ranges>
 
-std::vector<Process> ProcessFetcherTest::processes() const
+ProcessFetcherTest::ProcessFetcherTest()
 {
   Process proc1;
   proc1.cmd("Command1");
@@ -11,14 +12,24 @@ std::vector<Process> ProcessFetcherTest::processes() const
   Process proc3;
   proc3.cmd("Command3");
   proc3.pid(344);
-  return std::vector<Process>{
+  processes_ = std::vector< Process >{
     proc1,
     proc2,
     proc3
   };
 }
 
-std::expected<void, std::string> ProcessFetcherTest::kill(int pid)
+std::vector< Process > ProcessFetcherTest::processes() const
 {
-  return std::expected<void, std::string>();
+  return processes_;
+}
+
+std::expected< void, std::string > ProcessFetcherTest::kill(int pid)
+{
+  auto processToRemove = std::ranges::find_if(processes_, [pid](auto proc){return proc.pid() == pid;});
+  using namespace std::string_literals;
+  if (processToRemove == processes_.end())
+    return std::unexpected("Process not found"s);
+  processes_.erase(processToRemove);
+  return {};
 }
