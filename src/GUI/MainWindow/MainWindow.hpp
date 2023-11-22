@@ -30,7 +30,8 @@ private:
   friend class details_::ActionsHolder;
   std::unique_ptr< Ui::MainWindow > ui_;
   std::unique_ptr< ProcessTableModel > processTableModel_;
-  std::unique_ptr< details_::ActionsHolder > actionsHolder_;
+  std::unique_ptr< details_::ActionsHolder > allActions_;
+  std::mutex procListMut_;
 };
 
 #endif
