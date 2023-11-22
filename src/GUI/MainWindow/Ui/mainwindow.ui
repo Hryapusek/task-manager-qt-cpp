@@ -34,9 +34,27 @@
      <string>View</string>
     </property>
    </widget>
+   <widget class="QMenu" name="menuOptions">
+    <property name="title">
+     <string>Options</string>
+    </property>
+    <addaction name="actionRefresh"/>
+   </widget>
    <addaction name="menuView"/>
+   <addaction name="menuOptions"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionRefresh">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Refresh</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>
