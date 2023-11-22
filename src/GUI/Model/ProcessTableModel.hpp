@@ -48,6 +48,9 @@ public:
       return Column_::CMD;
     }
   };
+  /**
+   * @throw std::logic_error if can not fetch the processes
+   */
   ProcessTableModel(std::unique_ptr< ProcessFetcherI > processFetcher);
   int rowCount(const QModelIndex &parent) const override;
   int columnCount(const QModelIndex &parent) const override;
@@ -55,7 +58,7 @@ public:
   QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
   Qt::ItemFlags flags(const QModelIndex &index) const override;
   std::expected< void, std::string > kill(int pid);
-  void refresh();
+  std::expected< void, std::string > refresh();
 private:
   static const int nColumns = 3;
   std::unique_ptr< ProcessFetcherI > processFetcher_;

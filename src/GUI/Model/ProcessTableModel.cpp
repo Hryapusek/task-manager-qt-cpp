@@ -1,10 +1,14 @@
 #include "ProcessTableModel.hpp"
+#include <QMessageBox>
 #include <QtDebug>
 
 ProcessTableModel::ProcessTableModel(std::unique_ptr< ProcessFetcherI > processFetcher) :
   processFetcher_(std::move(processFetcher))
 {
-  processes_ = processFetcher_->processes();
+  auto res = processFetcher_->processes();
+  if (!res)
+    throw std::logic_error("Can not fetch processes\n");
+  processes_ = std::move(*res);
 }
 
 int ProcessTableModel::rowCount(const QModelIndex &parent) const
@@ -76,6 +80,17 @@ std::expected< void, std::string > ProcessTableModel::kill(int pid)
   auto deletedRowNum = std::distance(processes_.begin(), processToRemove);
   processes_.erase(processToRemove);
   removeRow(deletedRowNum);
+  layoutChanged();
+  return { };
+}
+
+std::expected< void, std::string > ProcessTableModel::refresh()
+{
+  auto res = processFetcher_->processes();
+  if (!res)
+    return std::unexpected(res.error());
+  processes_ = std::move(res.value());
+  dataChanged(index(0, 0), index(rowCount(QModelIndex()), columnCount(QModelIndex())));
   layoutChanged();
   return {};
 }
