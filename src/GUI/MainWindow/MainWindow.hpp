@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QShortcut>
 #include <memory>
+#include <thread>
 #include "GUI/Model/ProcessTableModel.hpp"
 #include "Utils/ConditionAction.hpp"
 
@@ -30,8 +31,10 @@ private:
   friend class details_::ActionsHolder;
   std::unique_ptr< Ui::MainWindow > ui_;
   std::unique_ptr< ProcessTableModel > processTableModel_;
-  std::unique_ptr< details_::ActionsHolder > allActions_;
+  std::unique_ptr< details_::ActionsHolder > actionsHolder_;
   std::mutex procListMut_;
+  std::unique_ptr< QTimer > refreshTimer;
+  void refreshFunc();
 };
 
 #endif
