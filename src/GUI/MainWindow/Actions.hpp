@@ -21,11 +21,13 @@ namespace details_
   private:
     MainWindow *mw_;
     std::unique_ptr< QMenu > menu_;
+    std::unique_ptr< ConditionAction > refreshAction_;
+    std::unique_ptr< QShortcut > refreshActShcut_;
     std::unique_ptr< ConditionAction > killAction_;
     std::unique_ptr< QShortcut > killActShcut_;
-    std::unique_ptr< ConditionAction > infoAction_;
-    std::vector< ConditionAction * > actionsHolder_;
+    std::vector< ConditionAction * > allActions_;
     void createKillAction();
+    void createRefreshAction();
   };
 }
 
