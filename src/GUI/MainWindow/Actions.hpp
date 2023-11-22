@@ -1,7 +1,6 @@
 #ifndef ACITONS_HOLDER_HPP
 #define ACITONS_HOLDER_HPP
 
-#include <QMainWindow>
 #include <QShortcut>
 #include <memory>
 #include "Utils/ConditionAction.hpp"
