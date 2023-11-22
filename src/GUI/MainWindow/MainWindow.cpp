@@ -2,6 +2,7 @@
 #include "Ui/UiMainWindow.hpp"
 #include "GUI/Model/ProcessTableModel.hpp"
 #include "Process/ProcessFetchers/Test/ProcessFetcherTest.hpp"
+#include "Actions.hpp"
 
 MainWindow::MainWindow() :
   ui_(std::make_unique< Ui::MainWindow >())

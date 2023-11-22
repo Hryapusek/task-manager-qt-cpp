@@ -1,5 +1,6 @@
 #include "MainWindow.hpp"
 #include "Ui/UiMainWindow.hpp"
+#include "Actions.hpp"
 #include "GUI/Model/ProcessTableModel.hpp"
 #include "Process/ProcessFetchers/Test/ProcessFetcherTest.hpp"
 #include <QtDebug>
