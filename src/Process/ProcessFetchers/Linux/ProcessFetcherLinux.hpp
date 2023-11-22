@@ -5,7 +5,7 @@
 
 class ProcessFetcherLinux : public ProcessFetcherI
 {
-  virtual std::vector< Process > processes() const override;
+  virtual std::expected< std::vector< Process >, std::string > processes() const override;
   virtual std::expected< void, std::string > kill(int pid) override;
 };
 

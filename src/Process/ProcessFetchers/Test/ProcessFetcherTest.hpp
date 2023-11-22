@@ -7,7 +7,7 @@ class ProcessFetcherTest: public ProcessFetcherI
 {
 public:
   ProcessFetcherTest();
-  virtual std::vector< Process > processes() const override;
+  virtual std::expected< std::vector< Process >, std::string > processes() const override;
   virtual std::expected< void, std::string > kill(int pid) override;
 private:
   std::vector< Process > processes_;

@@ -19,7 +19,7 @@ ProcessFetcherTest::ProcessFetcherTest()
   };
 }
 
-std::vector< Process > ProcessFetcherTest::processes() const
+std::expected< std::vector< Process >, std::string > ProcessFetcherTest::processes() const
 {
   return processes_;
 }
@@ -31,5 +31,9 @@ std::expected< void, std::string > ProcessFetcherTest::kill(int pid)
   if (processToRemove == processes_.end())
     return std::unexpected("Process not found"s);
   processes_.erase(processToRemove);
+  Process proc;
+  proc.cmd("Command5");
+  proc.pid(555);
+  processes_.push_back(proc);
   return {};
 }

@@ -11,7 +11,7 @@ public:
   /**
    * @return Sorted by pid processes
    */
-  virtual std::vector< Process > processes() const = 0;
+  virtual std::expected< std::vector< Process >, std::string > processes() const = 0;
   virtual std::expected< void, std::string > kill(int pid) = 0;
 };
 
