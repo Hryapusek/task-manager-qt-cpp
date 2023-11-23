@@ -2,6 +2,7 @@
 #define PROCESS_HPP
 
 #include <string>
+#include <QMetaType>
 
 class Process
 {
@@ -18,5 +19,7 @@ private:
   time_t time_;
   std::string cmd_;
 };
+
+Q_DECLARE_METATYPE(Process)
 
 #endif
