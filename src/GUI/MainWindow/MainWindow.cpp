@@ -35,8 +35,7 @@ void MainWindow::refreshFunc()
   std::unique_lock lock(procListMut_, std::defer_lock);
   if (!lock.try_lock())
     return;
-  auto res = processTableModel_->refresh();
-  if (!res)
-    qDebug() << res.error().c_str();
+  auto showError = true;
+  actionsHolder_->refresh(showError);
   lock.unlock();
 }
