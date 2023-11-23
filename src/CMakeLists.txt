@@ -16,6 +16,7 @@ set(SOURCES_FILES
   Process/Objects/Process.hpp
 
   Process/ProcessFetchers/Interface/ProcessFetcherI.hpp
+  Process/ProcessFetchers/Linux/ProcessFetcherLinux.cpp
   Process/ProcessFetchers/Linux/ProcessFetcherLinux.hpp
   Process/ProcessFetchers/Test/ProcessFetcherTest.hpp
   Process/ProcessFetchers/Test/ProcessFetcherTest.cpp
