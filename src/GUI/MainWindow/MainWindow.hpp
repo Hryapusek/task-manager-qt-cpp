@@ -18,6 +18,7 @@ class MainWindow;
 namespace details_
 {
   class ActionsHolder;
+  class ProcTableSortProxy;
 }
 
 class MainWindow: public QMainWindow
@@ -31,6 +32,7 @@ private:
   friend class details_::ActionsHolder;
   std::unique_ptr< Ui::MainWindow > ui_;
   std::unique_ptr< ProcessTableModel > processTableModel_;
+  std::unique_ptr< details_::ProcTableSortProxy > procTableSortProxy_;
   std::unique_ptr< details_::ActionsHolder > actionsHolder_;
   std::mutex procListMut_;
   std::unique_ptr< QTimer > refreshTimer;

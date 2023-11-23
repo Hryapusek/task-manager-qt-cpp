@@ -3,9 +3,11 @@
 #include "GUI/Model/ProcessTableModel.hpp"
 #include "Process/ProcessFetchers/Test/ProcessFetcherTest.hpp"
 #include "Actions.hpp"
+#include "ProcTableSortProxy.hpp"
 #include <mutex>
 #include <QTimer>
 #include <QDebug>
+#include <QSortFilterProxyModel>
 
 MainWindow::MainWindow() :
   ui_(std::make_unique< Ui::MainWindow >())
@@ -13,14 +15,22 @@ MainWindow::MainWindow() :
   using namespace details_;
   std::unique_lock lock(procListMut_);
   ui_->setupUi(this);
+
   actionsHolder_ = std::make_unique< details_::ActionsHolder >(this);
+
   auto fetcher = std::make_unique< ProcessFetcherTest >();
   processTableModel_ = std::make_unique< ProcessTableModel >(std::move(fetcher));
-  ui_->processTableView->setModel(processTableModel_.get());
   ui_->processTableView->setSelectionBehavior(QAbstractItemView::SelectionBehavior::SelectRows);
   ui_->processTableView->setSelectionMode(QAbstractItemView::SelectionMode::ExtendedSelection);
   ui_->processTableView->setContextMenuPolicy(Qt::ContextMenuPolicy::CustomContextMenu);
+
+  procTableSortProxy_ = std::make_unique< ProcTableSortProxy >();
+  procTableSortProxy_->setSourceModel(processTableModel_.get());
+  ui_->processTableView->setModel(procTableSortProxy_.get());
+  ui_->processTableView->setSortingEnabled(true);
+  ui_->processTableView->horizontalHeader()->setSortIndicator(ProcessTableModel::Column::PID, Qt::AscendingOrder);
   connect(ui_->processTableView, &QTableView::customContextMenuRequested, actionsHolder_.get(), &ActionsHolder::showMenu);
+
   refreshTimer = std::make_unique< QTimer >();
   refreshTimer->setInterval(5000);
   connect(refreshTimer.get(), &QTimer::timeout, this, &MainWindow::refreshFunc);
