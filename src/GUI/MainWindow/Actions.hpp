@@ -9,6 +9,10 @@ class MainWindow;
 
 namespace details_
 {
+  /*
+    Shortcuts lock the mutex.
+    Actions do NOT because showMenu does.
+  */
   class ActionsHolder: public QObject
   {
     Q_OBJECT
@@ -16,6 +20,14 @@ namespace details_
     ActionsHolder(MainWindow *mw);
     ~ActionsHolder();
     void showMenu(const QPoint &pos);
+    /**
+     * @note Does NOT hold the process list mutex
+     */
+    void refresh(bool showError = true);
+    /**
+     * @note Does NOT hold the process list mutex
+     */
+    void kill();
 
   private:
     MainWindow *mw_;
@@ -27,6 +39,8 @@ namespace details_
     std::vector< ConditionAction * > allActions_;
     void createKillAction();
     void createRefreshAction();
+    std::vector< QPersistentModelIndex > getSelectedRowsPersistIndexes() const;
+    void selectPersistRowsIndexes(const std::vector< QPersistentModelIndex > &persistRowsIndexes);
   };
 }
 

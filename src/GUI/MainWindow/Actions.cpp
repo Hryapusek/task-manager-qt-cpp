@@ -33,6 +33,46 @@ namespace details_
     menu_->exec(QCursor::pos());
   }
 
+  void ActionsHolder::refresh(bool showError)
+  {
+    auto selectedRowsPersistIndexes = getSelectedRowsPersistIndexes();
+    auto res = mw_->processTableModel_->refresh();
+    if (showError && !res)
+    {
+      auto errorMsg = tr("Error while refreshing processes.")
+                      .append(" ")
+                      .append(QString::fromStdString(res.error()));
+      QMessageBox::critical(mw_, tr("Error"), errorMsg, QMessageBox::Close);
+      return;
+    }
+    selectPersistRowsIndexes(selectedRowsPersistIndexes);
+  }
+
+  void ActionsHolder::kill()
+  {
+    auto selectedItems = mw_->ui_->processTableView->selectionModel();
+    auto selectedRows = selectedItems->selectedRows();
+    std::vector< int > pids;
+    pids.reserve(selectedRows.size());
+    for (auto modelItem : selectedRows)
+    {
+      auto pidStr = modelItem.data(Qt::ItemDataRole::DisplayRole).toString();
+      pids.push_back(pidStr.toInt());
+    }
+    for (auto pid : pids)
+    {
+      auto res = mw_->processTableModel_->kill(pid);
+      if (!res)
+      {
+        auto errorMsg = tr("Can not kill the process.")
+                        .append(" ")
+                        .append(QString::fromStdString(res.error()));
+        QMessageBox::critical(mw_, tr("Error"), errorMsg, QMessageBox::Close);
+        continue;
+      }
+    }
+  }
+
   void details_::ActionsHolder::createKillAction()
   {
     killAction_ = std::make_unique< ConditionAction >(tr("Kill"));
@@ -43,34 +83,10 @@ namespace details_
       return !selectedItems->selectedRows().empty();
     });
     killActShcut_ = std::make_unique< QShortcut >(QKeySequence::Delete, mw_->ui_->processTableView);
+    connect(killAction_.get(), &QAction::triggered, this, &ActionsHolder::kill);
     connect(killActShcut_.get(), &QShortcut::activated, [mw_ = this->mw_, killAction_ = this->killAction_.get()]() {
       std::unique_lock lock(mw_->procListMut_);
       killAction_->checkAndTrigger();
-    });
-    connect(killAction_.get(), &QAction::triggered,
-      [mw_ = this->mw_, killAction_ = this->killAction_.get()]() {
-      qDebug() << "Kill action";
-      auto selectedItems = mw_->ui_->processTableView->selectionModel();
-      auto selectedRows = selectedItems->selectedRows();
-      std::vector< int > pids;
-      pids.reserve(selectedRows.size());
-      for (auto modelItem : selectedRows)
-      {
-        auto pidStr = modelItem.data(Qt::ItemDataRole::DisplayRole).toString();
-        pids.push_back(pidStr.toInt());
-      }
-      for (auto pid : pids)
-      {
-        auto res = mw_->processTableModel_->kill(pid);
-        if (!res)
-        {
-          auto errorMsg = tr("Can not kill the process.")
-                          .append(" ")
-                          .append(QString::fromStdString(res.error()));
-          QMessageBox::critical(mw_, tr("Error"), errorMsg, QMessageBox::Close);
-          continue;
-        }
-      }
     });
   }
 
@@ -79,19 +95,41 @@ namespace details_
     refreshAction_ = std::make_unique< ConditionAction >(tr("Refresh"));
     refreshAction_->setIcon(mw_->style()->standardIcon(QStyle::SP_BrowserReload));
     refreshActShcut_ = std::make_unique< QShortcut >(QKeySequence::Refresh, mw_->ui_->processTableView);
-    connect(refreshAction_.get(), &QAction::triggered, [mw_ = this->mw_](auto unused) {
-      auto res = mw_->processTableModel_->refresh();
-      if (!res)
-      {
-        auto errorMsg = tr("Error while refreshing processes.")
-                        .append(" ")
-                        .append(QString::fromStdString(res.error()));
-        QMessageBox::critical(mw_, tr("Error"), errorMsg, QMessageBox::Close);
-      }
-    });
+    connect(refreshAction_.get(), &QAction::triggered, this, &ActionsHolder::refresh);
+
     connect(refreshActShcut_.get(), &QShortcut::activated, [mw_ = this->mw_, refreshAction_ = this->refreshAction_.get()]() {
       std::unique_lock lock(mw_->procListMut_);
       refreshAction_->checkAndTrigger();
+    });
+  }
+
+  std::vector< QPersistentModelIndex > ActionsHolder::getSelectedRowsPersistIndexes() const
+  {
+    auto selectionModel = mw_->ui_->processTableView->selectionModel();
+    auto selectedRows = selectionModel->selectedRows();
+    std::vector< QPersistentModelIndex > selectedRowsPersistIndexes;
+    std::ranges::transform(selectedRows, std::back_inserter(selectedRowsPersistIndexes),
+      [](const QModelIndex &index) {
+      return QPersistentModelIndex(index);
+    });
+    return selectedRowsPersistIndexes;
+  }
+
+  void ActionsHolder::selectPersistRowsIndexes(const std::vector< QPersistentModelIndex > &persistRowsIndexes)
+  {
+    QItemSelection newSelection;
+    auto onlyValidIndexes = std::views::filter(
+      [](const QPersistentModelIndex &ind) {
+      return ind.isValid();
+    });
+    std::ranges::transform(persistRowsIndexes | onlyValidIndexes, std::back_inserter(newSelection),
+      [mw_ = this->mw_](const QPersistentModelIndex &ind) {
+      auto selectionModel = mw_->ui_->processTableView->selectionModel();
+      auto topLeft = QModelIndex(ind);
+      using Column = ProcessTableModel::Column;
+      auto bottomRight = mw_->processTableModel_->index(ind.row(), Column::toInt(Column::lastColumn()));
+      QItemSelectionRange range(topLeft, bottomRight);
+      return range;
     });
   }
 
