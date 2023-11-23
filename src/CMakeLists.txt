@@ -6,6 +6,8 @@ set(SOURCES_FILES
   GUI/MainWindow/MainWindow.hpp
   GUI/MainWindow/Actions.cpp
   GUI/MainWindow/Actions.hpp
+  GUI/MainWindow/ProcTableSortProxy.cpp
+  GUI/MainWindow/ProcTableSortProxy.hpp
   GUI/MainWindow/Ui/UiMainWindow.hpp
   GUI/MainWindow/Utils/ConditionAction.cpp
   GUI/MainWindow/Utils/ConditionAction.hpp
