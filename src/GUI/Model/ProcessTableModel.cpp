@@ -49,6 +49,10 @@ QVariant ProcessTableModel::data(const QModelIndex &index, int role) const
         return QVariant();
     }
   }
+  else if (role == Qt::ItemDataRole::UserRole)
+  {
+    return QVariant::fromValue(processes_[index.row()]);
+  }
   return QVariant();
 }
 
