@@ -75,11 +75,61 @@ std::expected< void, std::string > ProcessTableModel::kill(int pid)
 
 std::expected< void, std::string > ProcessTableModel::refresh()
 {
-  auto res = processFetcher_->processes();
-  if (!res)
-    return std::unexpected(res.error());
-  processes_ = std::move(res.value());
-  dataChanged(index(0, 0), index(rowCount(QModelIndex()), columnCount(QModelIndex())));
-  layoutChanged();
-  return {};
+  auto newProcesses_ = processFetcher_->processes();
+  if (!newProcesses_)
+    return std::unexpected(std::move(newProcesses_.error()));
+  auto oldProcesses = std::exchange(processes_, newProcesses_.value());
+  mergeProcesses(std::move(oldProcesses));
+  return { };
+}
+
+void ProcessTableModel::mergeProcesses(std::vector< Process > oldProcesses)
+{
+  int currentRow = 0;
+  auto oldProcIt = oldProcesses.begin();
+  auto &newProcesses = processes_;
+  auto newProcIt = newProcesses.begin();
+  while (oldProcIt != oldProcesses.end() && newProcIt != newProcesses.end())
+  {
+    if (oldProcIt->pid() < newProcIt->pid())
+    {
+      beginRemoveRows(QModelIndex(), currentRow, currentRow);
+      removeRow(currentRow);
+      endRemoveRows();
+      ++oldProcIt;
+    }
+    else if (oldProcIt->pid() > newProcIt->pid())
+    {
+      beginInsertRows(QModelIndex(), currentRow, currentRow);
+      insertRow(currentRow);
+      endInsertRows();
+      ++currentRow;
+      ++newProcIt;
+    }
+    else if (oldProcIt->pid() == newProcIt->pid() && oldProcIt->cmd() != newProcIt->cmd())
+    {
+      dataChanged(index(currentRow, 0), index(currentRow, Column::lastColumn()));
+      ++currentRow;
+      ++oldProcIt;
+      ++newProcIt;
+    }
+    else if (oldProcIt->pid() == newProcIt->pid() && oldProcIt->cmd() == newProcIt->cmd())
+    {
+      ++currentRow;
+      ++oldProcIt;
+      ++newProcIt;
+    }
+  }
+  while (oldProcIt++ != oldProcesses.end())
+  {
+    beginRemoveRows(QModelIndex(), currentRow, currentRow);
+    removeRow(currentRow++);
+    endRemoveRows();
+  }
+  while (newProcIt++ != newProcesses.end())
+  {
+    beginInsertRows(QModelIndex(), currentRow, currentRow);
+    insertRow(currentRow++);
+    endInsertRows();
+  }
 }
