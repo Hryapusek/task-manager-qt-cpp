@@ -1,4 +1,5 @@
 ## TODO
+- feat: Make selection stay the same after refresh
 - feat: Add sorting columns
 - feat: Parse `ps -e` command
 - feat: Menu implementation
