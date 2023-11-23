@@ -70,18 +70,7 @@ Qt::ItemFlags ProcessTableModel::flags(const QModelIndex &index) const
 
 std::expected< void, std::string > ProcessTableModel::kill(int pid)
 {
-  auto res = processFetcher_->kill(pid);
-  if (!res)
-    return res;
-  auto processToRemove = std::ranges::find_if(processes_, [pid](auto proc) {
-    return proc.pid() == pid;
-  });
-  assert(processToRemove != processes_.end());
-  auto deletedRowNum = std::distance(processes_.begin(), processToRemove);
-  processes_.erase(processToRemove);
-  removeRow(deletedRowNum);
-  layoutChanged();
-  return { };
+  return processFetcher_->kill(pid);
 }
 
 std::expected< void, std::string > ProcessTableModel::refresh()
