@@ -8,6 +8,8 @@ set(SOURCES_FILES
   GUI/MainWindow/Actions.hpp
   GUI/MainWindow/ProcTableSortProxy.cpp
   GUI/MainWindow/ProcTableSortProxy.hpp
+  GUI/MainWindow/MenuBarActions.hpp
+  GUI/MainWindow/MenuBarActions.cpp
   GUI/MainWindow/Ui/UiMainWindow.hpp
   GUI/MainWindow/Utils/ConditionAction.cpp
   GUI/MainWindow/Utils/ConditionAction.hpp
