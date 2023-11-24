@@ -8,5 +8,5 @@
 ***23.11 22:13 - feat:*** Add sorting columns  
 ***24.11 14:51 - feat:*** Parse `ps -e` command  
 ***24.11 14:51 - fix:*** Save scroll position after refresh  
-***24.11 14:51 - feat:*** Linux kill implementation added
-***24.11 14:51 - feat:*** Toggle refresh in menu
+***24.11 14:51 - feat:*** Linux kill implementation added  
+***24.11 14:51 - feat:*** Toggle refresh in menu  
