@@ -29,27 +29,12 @@
      <height>22</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuView">
-    <property name="title">
-     <string>View</string>
-    </property>
-    <widget class="QMenu" name="sortMenu">
-     <property name="title">
-      <string>Sort by</string>
-     </property>
-     <addaction name="sortPID"/>
-     <addaction name="sortTime"/>
-     <addaction name="sortCmd"/>
-    </widget>
-    <addaction name="sortMenu"/>
-   </widget>
    <widget class="QMenu" name="menuOptions">
     <property name="title">
      <string>Options</string>
     </property>
     <addaction name="refreshOpt"/>
    </widget>
-   <addaction name="menuView"/>
    <addaction name="menuOptions"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
@@ -62,21 +47,6 @@
    </property>
    <property name="text">
     <string>Refresh</string>
-   </property>
-  </action>
-  <action name="sortPID">
-   <property name="text">
-    <string>PID</string>
-   </property>
-  </action>
-  <action name="sortTime">
-   <property name="text">
-    <string>TIME</string>
-   </property>
-  </action>
-  <action name="sortCmd">
-   <property name="text">
-    <string>COMMAND</string>
    </property>
   </action>
  </widget>

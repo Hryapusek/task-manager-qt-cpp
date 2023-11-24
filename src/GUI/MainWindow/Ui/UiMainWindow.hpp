@@ -27,15 +27,10 @@ class Ui_MainWindow
 {
 public:
     QAction *refreshOpt;
-    QAction *sortPID;
-    QAction *sortTime;
-    QAction *sortCmd;
     QWidget *centralwidget;
     QGridLayout *gridLayout;
     QTableView *processTableView;
     QMenuBar *menubar;
-    QMenu *menuView;
-    QMenu *sortMenu;
     QMenu *menuOptions;
     QStatusBar *statusbar;
 
@@ -48,12 +43,6 @@ public:
         refreshOpt->setObjectName(QString::fromUtf8("refreshOpt"));
         refreshOpt->setCheckable(true);
         refreshOpt->setChecked(true);
-        sortPID = new QAction(MainWindow);
-        sortPID->setObjectName(QString::fromUtf8("sortPID"));
-        sortTime = new QAction(MainWindow);
-        sortTime->setObjectName(QString::fromUtf8("sortTime"));
-        sortCmd = new QAction(MainWindow);
-        sortCmd->setObjectName(QString::fromUtf8("sortCmd"));
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         gridLayout = new QGridLayout(centralwidget);
@@ -67,10 +56,6 @@ public:
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));
         menubar->setGeometry(QRect(0, 0, 800, 22));
-        menuView = new QMenu(menubar);
-        menuView->setObjectName(QString::fromUtf8("menuView"));
-        sortMenu = new QMenu(menuView);
-        sortMenu->setObjectName(QString::fromUtf8("sortMenu"));
         menuOptions = new QMenu(menubar);
         menuOptions->setObjectName(QString::fromUtf8("menuOptions"));
         MainWindow->setMenuBar(menubar);
@@ -78,12 +63,7 @@ public:
         statusbar->setObjectName(QString::fromUtf8("statusbar"));
         MainWindow->setStatusBar(statusbar);
 
-        menubar->addAction(menuView->menuAction());
         menubar->addAction(menuOptions->menuAction());
-        menuView->addAction(sortMenu->menuAction());
-        sortMenu->addAction(sortPID);
-        sortMenu->addAction(sortTime);
-        sortMenu->addAction(sortCmd);
         menuOptions->addAction(refreshOpt);
 
         retranslateUi(MainWindow);
@@ -95,11 +75,6 @@ public:
     {
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "MainWindow", nullptr));
         refreshOpt->setText(QCoreApplication::translate("MainWindow", "Refresh", nullptr));
-        sortPID->setText(QCoreApplication::translate("MainWindow", "PID", nullptr));
-        sortTime->setText(QCoreApplication::translate("MainWindow", "TIME", nullptr));
-        sortCmd->setText(QCoreApplication::translate("MainWindow", "COMMAND", nullptr));
-        menuView->setTitle(QCoreApplication::translate("MainWindow", "View", nullptr));
-        sortMenu->setTitle(QCoreApplication::translate("MainWindow", "Sort by", nullptr));
         menuOptions->setTitle(QCoreApplication::translate("MainWindow", "Options", nullptr));
     } // retranslateUi
 
