@@ -46,6 +46,7 @@ namespace details_
       return;
     }
     selectPersistRowsIndexes(selectedRowsPersistIndexes);
+    mw_->ui_->processTableView->resizeColumnsToContents();
   }
 
   void ActionsHolder::kill()
