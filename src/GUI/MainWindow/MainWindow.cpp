@@ -2,6 +2,7 @@
 #include "Ui/UiMainWindow.hpp"
 #include "GUI/Model/ProcessTableModel.hpp"
 #include "Process/ProcessFetchers/Test/ProcessFetcherTest.hpp"
+#include "Process/ProcessFetchers/Linux/ProcessFetcherLinux.hpp"
 #include "Actions.hpp"
 #include "ProcTableSortProxy.hpp"
 #include <mutex>
@@ -18,7 +19,7 @@ MainWindow::MainWindow() :
 
   actionsHolder_ = std::make_unique< details_::ActionsHolder >(this);
 
-  auto fetcher = std::make_unique< ProcessFetcherTest >();
+  auto fetcher = std::make_unique< ProcessFetcherLinux >();
   processTableModel_ = std::make_unique< ProcessTableModel >(std::move(fetcher));
   ui_->processTableView->setSelectionBehavior(QAbstractItemView::SelectionBehavior::SelectRows);
   ui_->processTableView->setSelectionMode(QAbstractItemView::SelectionMode::ExtendedSelection);
