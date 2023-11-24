@@ -20,28 +20,28 @@ public:
     };
     static int toInt(Column_ col)
     {
-      return static_cast<int>(col);
+      return static_cast< int >(col);
     }
     static Column_ fromInt(int col)
     {
       assert(("Bad int. Can not convert to Column_ enum.", col >= 0 && col <= 2));
-      return static_cast<Column_>(col);
+      return static_cast< Column_ >(col);
     }
     static std::string toString(Column_ col)
     {
       switch (col)
       {
-      case Column_::PID:
-        return "PID";
+        case Column_::PID:
+          return "PID";
 
-      case Column_::TIME:
-        return "Time";
+        case Column_::TIME:
+          return "Time";
 
-      case Column_::CMD:
-        return "Command";
+        case Column_::CMD:
+          return "Command";
 
-      default:
-        std::unreachable();
+        default:
+          std::unreachable();
       }
     }
     static Column_ lastColumn()
