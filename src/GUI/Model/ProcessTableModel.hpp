@@ -63,7 +63,7 @@ private:
   static const int nColumns = 3;
   std::unique_ptr< ProcessFetcherI > processFetcher_;
   std::vector< Process > processes_;
-  void mergeProcesses(std::vector<Process> oldProcesses);
+  void mergeProcesses(std::vector< Process > oldProcesses);
 };
 
 #endif
