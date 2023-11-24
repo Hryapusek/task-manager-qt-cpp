@@ -32,6 +32,7 @@ MainWindow::MainWindow() :
   ui_->processTableView->setSortingEnabled(true);
   ui_->processTableView->horizontalHeader()->setSortIndicator(ProcessTableModel::Column::PID, Qt::AscendingOrder);
   ui_->processTableView->resizeColumnsToContents();
+  ui_->processTableView->setAutoScroll(false);
   connect(ui_->processTableView, &QTableView::customContextMenuRequested, actionsHolder_.get(), &ActionsHolder::showMenu);
 
   refreshTimer = std::make_unique< QTimer >();
