@@ -39,7 +39,15 @@ QVariant ProcessTableModel::data(const QModelIndex &index, int role) const
         break;
 
       case Column::TIME:
-        return QString::fromLocal8Bit("time");
+      {
+        auto time = process.time();
+        std::tm *ptm = std::gmtime(&time);
+        if (!ptm)
+          return QString::fromUtf8("None");
+        std::array<char, 15> buffer;
+        auto size = std::strftime(buffer.data(), buffer.size(), "%H:%M:%S", ptm);
+        return QString::fromUtf8(buffer.data(), size);
+      }
 
       case Column::CMD:
         return QString::fromStdString(process.cmd());
