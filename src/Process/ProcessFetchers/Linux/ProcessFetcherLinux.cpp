@@ -9,6 +9,8 @@
 #include <QDebug>
 #include <sys/signal.h>
 
+const char *ProcessFetcherLinux::psCommand = "ps -e -o \"%p\" -o \"|%x\" -o \"|%c\" --no-headers";
+
 namespace
 {
   struct Splitter
@@ -60,7 +62,7 @@ namespace
 
 std::expected< std::vector< Process >, std::string > ProcessFetcherLinux::processes() const
 {
-  auto psResult = executeCommand("ps -eo pid,time,cmd");
+  auto psResult = executeCommand(psCommand);
   return parsePsCommand(std::move(psResult));
 }
 
@@ -89,16 +91,9 @@ std::string ProcessFetcherLinux::executeCommand(const char *cmd)
 std::expected< std::vector< Process >, std::string > ProcessFetcherLinux::parsePsCommand(std::string cmdResult)
 {
   Splitter splitter(cmdResult, "\n");
-  std::size_t lineNum = 0;
   std::vector< Process > processes;
   while (splitter.hasNext())
   {
-    lineNum++;
-    if (lineNum == 1)
-    {
-      splitter.next();
-      continue;
-    }
     auto line = splitter.next().value();
     auto res = parseLine(std::string_view(line.first, line.second));
     if (!res)
@@ -113,7 +108,7 @@ std::expected< std::vector< Process >, std::string > ProcessFetcherLinux::parseP
 
 std::expected< Process, std::string > ProcessFetcherLinux::parseLine(std::string_view line)
 {
-  Splitter splitter(line, " ");
+  Splitter splitter(line, "|");
 
   if (!splitter.hasNext())
     return std::unexpected("Pid str not found in the line");
@@ -133,8 +128,12 @@ std::expected< Process, std::string > ProcessFetcherLinux::parseLine(std::string
   std::time_t time = tm.tm_sec + tm.tm_min * 60 + tm.tm_hour * 60 * 60;
 
   int pid;
+  auto pidWordBegin = pidStrPair.first;
+  auto pidWordEnd = pidStrPair.second;
 
-  auto res = std::from_chars(pidStrPair.first, pidStrPair.second, pid);
+  while (pidWordBegin != pidWordEnd && *pidWordBegin == ' ')
+    ++pidWordBegin;
+  auto res = std::from_chars(pidWordBegin, pidWordEnd, pid);
   if (res.ec == std::errc::invalid_argument)
     return std::unexpected("Bad pid value found");
 
