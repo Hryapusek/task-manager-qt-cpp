@@ -7,6 +7,7 @@
 #include <iomanip>
 #include <charconv>
 #include <QDebug>
+#include <sys/signal.h>
 
 namespace
 {
@@ -66,9 +67,7 @@ std::expected< std::vector< Process >, std::string > ProcessFetcherLinux::proces
 std::expected< void, std::string > ProcessFetcherLinux::kill(int pid)
 {
   auto location = std::source_location::current();
-  qDebug() << location.file_name()
-           << location.line()
-           << location.function_name() << ": Implement me pls";
+  ::kill(pid, SIGKILL);
   return std::expected< void, std::string >();
 }
 
