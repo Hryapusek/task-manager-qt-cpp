@@ -18,7 +18,7 @@ int ProcessTableModel::rowCount(const QModelIndex &parent) const
 
 int ProcessTableModel::columnCount(const QModelIndex &parent) const
 {
-  return nColumns;
+  return Column::nColumns;
 }
 
 QVariant ProcessTableModel::data(const QModelIndex &index, int role) const
@@ -27,7 +27,9 @@ QVariant ProcessTableModel::data(const QModelIndex &index, int role) const
     return QVariant();
   if (role == Qt::ItemDataRole::TextAlignmentRole)
   {
-    return int(Qt::AlignmentFlag::AlignRight);
+    if (index.column() != Column::CMD)
+      return int(Qt::AlignmentFlag::AlignRight);
+    return int(Qt::AlignmentFlag::AlignLeft);
   }
   else if (role == Qt::ItemDataRole::DisplayRole)
   {
@@ -66,10 +68,16 @@ QVariant ProcessTableModel::data(const QModelIndex &index, int role) const
 
 QVariant ProcessTableModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
-  if (role == Qt::ItemDataRole::DisplayRole && orientation == Qt::Orientation::Horizontal)
+  if (orientation != Qt::Orientation::Horizontal)
+    return QVariant();
+  if (role == Qt::ItemDataRole::DisplayRole)
   {
     auto columnName = Column::toString(Column::fromInt(section));
-    return QString::fromStdString(std::move(columnName));
+    return QString::fromStdString(columnName);
+  }
+  else if (role == Qt::ItemDataRole::TextAlignmentRole)
+  {
+    return Qt::AlignmentFlag::AlignCenter;
   }
   return QVariant();
 }
