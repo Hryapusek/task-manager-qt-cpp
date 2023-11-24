@@ -11,7 +11,8 @@ public:
   class Column
   {
   public:
-    enum Column_ 
+    static const int nColumns = 3;
+    enum Column_
     {
       PID = 0,
       TIME = 1,
@@ -60,7 +61,6 @@ public:
   std::expected< void, std::string > kill(int pid);
   std::expected< void, std::string > refresh();
 private:
-  static const int nColumns = 3;
   std::unique_ptr< ProcessFetcherI > processFetcher_;
   std::vector< Process > processes_;
   void mergeProcesses(std::vector< Process > oldProcesses);
