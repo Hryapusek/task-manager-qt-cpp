@@ -10,6 +10,7 @@ public:
   virtual std::expected< void, std::string > kill(int pid) override;
 
 private:
+  static const char *psCommand;
   friend class ProcessFetcherLinux_parsePsCommandTest_Test;
   static std::string executeCommand(const char* cmd);
   static std::expected< std::vector< Process >, std::string > parsePsCommand(std::string cmdResult);
