@@ -18,6 +18,7 @@ class MainWindow;
 namespace details_
 {
   class ActionsHolder;
+  class MenuBarActions;
   class ProcTableSortProxy;
 }
 
@@ -30,6 +31,7 @@ public:
 
 private:
   friend class details_::ActionsHolder;
+  friend class details_::MenuBarActions;
   std::unique_ptr< Ui::MainWindow > ui_;
   std::unique_ptr< ProcessTableModel > processTableModel_;
   std::unique_ptr< details_::ProcTableSortProxy > procTableSortProxy_;
