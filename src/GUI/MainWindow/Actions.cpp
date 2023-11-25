@@ -36,6 +36,8 @@ namespace details_
   void ActionsHolder::refresh(bool showError)
   {
     auto selectedRowsPersistIndexes = getSelectedRowsPersistIndexes();
+    auto selectionModel = mw_->ui_->processTableView->selectionModel();
+    selectionModel->select(QItemSelection(), QItemSelectionModel::SelectionFlag::Select);
     auto res = mw_->processTableModel_->refresh();
     if (showError && !res)
     {
@@ -132,6 +134,8 @@ namespace details_
       QItemSelectionRange range(topLeft, bottomRight);
       return range;
     });
+    auto selectionModel = mw_->ui_->processTableView->selectionModel();
+    selectionModel->select(newSelection, QItemSelectionModel::SelectionFlag::Select);
   }
 
   ActionsHolder::~ActionsHolder()
