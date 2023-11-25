@@ -4,6 +4,7 @@
 #include "Process/ProcessFetchers/Interface/ProcessFetcherI.hpp"
 #include <memory>
 #include <QAbstractTableModel>
+#include <future>
 
 class ProcessTableModel: public QAbstractTableModel
 {
@@ -26,6 +27,8 @@ public:
 private:
   std::unique_ptr< process::ProcessFetcherI > processFetcher_;
   std::vector< process::Process > processes_;
+  using FutureProcesses_t = std::future< std::expected< std::vector< process::Process >, std::string > >;
+  FutureProcesses_t futureProcesses_;
   /**
    * @brief Tells which columns will be displayed
    */

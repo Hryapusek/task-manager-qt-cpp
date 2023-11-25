@@ -40,8 +40,12 @@ ProcessTableModel::ProcessTableModel(std::unique_ptr< process::ProcessFetcherI >
 {
   auto res = processFetcher_->processes();
   if (!res)
-    throw std::logic_error("Can not fetch processes\n");
+  {
+    QMessageBox::critical(nullptr, tr("Error"), tr("Can not fetch the processes. Programm will exit now"), QMessageBox::Close);
+    std::terminate();
+  }
   processes_ = std::move(*res);
+  futureProcesses_ = std::async(&process::ProcessFetcherI::processes, processFetcher_.get());
   supportedFields_ = processFetcher_->supportedFields();
   assert(supportedFields_[0] == process::Field::PID);
 }
@@ -110,7 +114,8 @@ std::expected< void, std::string > ProcessTableModel::kill(int pid)
 
 std::expected< void, std::string > ProcessTableModel::refresh()
 {
-  auto newProcesses_ = processFetcher_->processes();
+  auto newProcesses_ = futureProcesses_.get();
+  futureProcesses_ = std::async(&process::ProcessFetcherI::processes, processFetcher_.get());
   if (!newProcesses_)
     return std::unexpected(std::move(newProcesses_.error()));
   auto oldProcesses = std::exchange(processes_, newProcesses_.value());
