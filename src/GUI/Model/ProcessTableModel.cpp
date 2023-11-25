@@ -26,6 +26,9 @@ namespace
       case Field::COMMAND:
         return QString::fromStdString(process.cmd());
 
+      case Field::MEMORY:
+        return QString::fromStdString(std::to_string(process.memory()));
+
       default:
         std::unreachable();
     }
@@ -45,12 +48,12 @@ ProcessTableModel::ProcessTableModel(std::unique_ptr< process::ProcessFetcherI >
 
 int ProcessTableModel::rowCount(const QModelIndex &parent) const
 {
-  return processes_.size();
+  return parent.isValid() ? 0 : processes_.size();
 }
 
 int ProcessTableModel::columnCount(const QModelIndex &parent) const
 {
-  return supportedFields_.size();
+  return parent.isValid() ? 0 : supportedFields_.size();
 }
 
 QVariant ProcessTableModel::data(const QModelIndex &index, int role) const
@@ -134,6 +137,7 @@ int ProcessTableModel::toColumn(process::Field::Field_ field) const
 
 process::Field::Field_ ProcessTableModel::toField(int column) const
 {
+  assert(column < supportedFields_.size());
   return supportedFields_[column];
 }
 
