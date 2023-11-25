@@ -9,7 +9,6 @@
 #include <QDebug>
 #include <sys/signal.h>
 
-const char *ProcessFetcherLinux::psCommand = "ps -e -o \"%p\" -o \"|%x\" -o \"|%c\" --no-headers";
 
 namespace
 {
@@ -60,88 +59,98 @@ namespace
   };
 }
 
-std::expected< std::vector< Process >, std::string > ProcessFetcherLinux::processes() const
+namespace process
 {
-  auto psResult = executeCommand(psCommand);
-  return parsePsCommand(std::move(psResult));
-}
+  const char *ProcessFetcherLinux::psCommand = "ps -e -o \"%p\" -o \"|%x\" -o \"|%c\" --no-headers";
 
-std::expected< void, std::string > ProcessFetcherLinux::kill(int pid)
-{
-  auto location = std::source_location::current();
-  ::kill(pid, SIGKILL);
-  return std::expected< void, std::string >();
-}
-
-std::string ProcessFetcherLinux::executeCommand(const char *cmd)
-{
-  std::array< char, 512 > buffer;
-  std::string result;
-  std::unique_ptr< FILE, decltype(&pclose) > pipe(popen(cmd, "r"), pclose);
-  if (!pipe)
+  std::expected< std::vector< Process >, std::string > ProcessFetcherLinux::processes()
   {
-    throw std::runtime_error("popen() failed!");
+    auto psResult = executeCommand(psCommand);
+    return parsePsCommand(std::move(psResult));
   }
-  while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr) {
-    result += buffer.data();
-  }
-  return result;
-}
 
-std::expected< std::vector< Process >, std::string > ProcessFetcherLinux::parsePsCommand(std::string cmdResult)
-{
-  Splitter splitter(cmdResult, "\n");
-  std::vector< Process > processes;
-  while (splitter.hasNext())
+  std::expected< void, std::string > ProcessFetcherLinux::kill(int pid)
   {
-    auto line = splitter.next().value();
-    auto res = parseLine(std::string_view(line.first, line.second));
-    if (!res)
+    auto location = std::source_location::current();
+    ::kill(pid, SIGKILL);
+    return std::expected< void, std::string >();
+  }
+
+  constexpr std::vector<Field::Field_> ProcessFetcherLinux::supportedFields()
+  {
+    return {Field::PID, Field::WORK_TIME, Field::COMMAND};
+  }
+
+  std::string ProcessFetcherLinux::executeCommand(const char *cmd)
+  {
+    std::array< char, 512 > buffer;
+    std::string result;
+    std::unique_ptr< FILE, decltype(&pclose) > pipe(popen(cmd, "r"), pclose);
+    if (!pipe)
     {
-      qDebug() << "Bad line found. " << QString::fromStdString(res.error()) << " Skipping...\n";
-      continue;
+      throw std::runtime_error("popen() failed!");
     }
-    processes.push_back(res.value());
+    while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr) {
+      result += buffer.data();
+    }
+    return result;
   }
-  return processes;
-}
 
-std::expected< Process, std::string > ProcessFetcherLinux::parseLine(std::string_view line)
-{
-  Splitter splitter(line, "|");
+  std::expected< std::vector< Process >, std::string > ProcessFetcherLinux::parsePsCommand(std::string cmdResult)
+  {
+    Splitter splitter(cmdResult, "\n");
+    std::vector< Process > processes;
+    while (splitter.hasNext())
+    {
+      auto line = splitter.next().value();
+      auto res = parseLine(std::string_view(line.first, line.second));
+      if (!res)
+      {
+        qDebug() << "Bad line found. " << QString::fromStdString(res.error()) << " Skipping...\n";
+        continue;
+      }
+      processes.push_back(res.value());
+    }
+    return processes;
+  }
 
-  if (!splitter.hasNext())
-    return std::unexpected("Pid str not found in the line");
-  auto pidStrPair = splitter.next().value();
+  std::expected< Process, std::string > ProcessFetcherLinux::parseLine(std::string_view line)
+  {
+    Splitter splitter(line, "|");
 
-  if (!splitter.hasNext())
-    return std::unexpected("Time str not found in the line");
-  auto timeStrPair = splitter.next().value();
+    if (!splitter.hasNext())
+      return std::unexpected("Pid str not found in the line");
+    auto pidStrPair = splitter.next().value();
 
-  if (!splitter.hasNext())
-    return std::unexpected("Command str not found in the line");
-  auto cmdStrPair = splitter.theRest();
+    if (!splitter.hasNext())
+      return std::unexpected("Time str not found in the line");
+    auto timeStrPair = splitter.next().value();
 
-  struct std::tm tm;
-  std::istringstream ss(std::string(timeStrPair.first, timeStrPair.second));
-  ss >> std::get_time(&tm, "%T");
-  std::time_t time = tm.tm_sec + tm.tm_min * 60 + tm.tm_hour * 60 * 60;
+    if (!splitter.hasNext())
+      return std::unexpected("Command str not found in the line");
+    auto cmdStrPair = splitter.theRest();
 
-  int pid;
-  auto pidWordBegin = pidStrPair.first;
-  auto pidWordEnd = pidStrPair.second;
+    struct std::tm tm;
+    std::istringstream ss(std::string(timeStrPair.first, timeStrPair.second));
+    ss >> std::get_time(&tm, "%T");
+    std::time_t time = tm.tm_sec + tm.tm_min * 60 + tm.tm_hour * 60 * 60;
 
-  while (pidWordBegin != pidWordEnd && *pidWordBegin == ' ')
-    ++pidWordBegin;
-  auto res = std::from_chars(pidWordBegin, pidWordEnd, pid);
-  if (res.ec == std::errc::invalid_argument)
-    return std::unexpected("Bad pid value found");
+    int pid;
+    auto pidWordBegin = pidStrPair.first;
+    auto pidWordEnd = pidStrPair.second;
 
-  Process proc;
-  proc.time(time);
-  proc.cmd(std::string(cmdStrPair.first, cmdStrPair.second));
-  proc.pid(pid);
-  return proc;
+    while (pidWordBegin != pidWordEnd && *pidWordBegin == ' ')
+      ++pidWordBegin;
+    auto res = std::from_chars(pidWordBegin, pidWordEnd, pid);
+    if (res.ec == std::errc::invalid_argument)
+      return std::unexpected("Bad pid value found");
+
+    Process proc;
+    proc.time(time);
+    proc.cmd(std::string(cmdStrPair.first, cmdStrPair.second));
+    proc.pid(pid);
+    return proc;
+  }
 }
 
 #ifdef GTEST_TESTING

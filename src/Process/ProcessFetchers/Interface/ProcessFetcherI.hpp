@@ -5,14 +5,18 @@
 #include <vector>
 #include <expected>
 
-class ProcessFetcherI
+namespace process
 {
-public:
-  /**
-   * @return Sorted by pid processes
-   */
-  virtual std::expected< std::vector< Process >, std::string > processes() const = 0;
-  virtual std::expected< void, std::string > kill(int pid) = 0;
-};
+  class ProcessFetcherI
+  {
+  public:
+    /**
+     * @return Sorted by pid processes
+     */
+    virtual std::expected< std::vector< Process >, std::string > processes() = 0;
+    virtual std::expected< void, std::string > kill(int pid) = 0;
+    virtual std::vector< process::Field::Field_ > supportedFields() = 0;
+  };
+}
 
 #endif
