@@ -2,14 +2,11 @@
 #include "Ui/UiMainWindow.hpp"
 #include "GUI/Model/ProcessTableModel.hpp"
 #include "ProcTableViewHelper.hpp"
-#include "Process/ProcessFetchers/Test/ProcessFetcherTest.hpp"
-#include "Process/ProcessFetchers/Linux/ProcessFetcherLinux.hpp"
 #include "Actions.hpp"
 #include "ProcTableSortProxy.hpp"
 #include <mutex>
 #include <QTimer>
 #include <QDebug>
-#include <QSortFilterProxyModel>
 
 MainWindow::MainWindow() :
   ui_(std::make_unique< Ui::MainWindow >())
