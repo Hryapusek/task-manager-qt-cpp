@@ -9,6 +9,7 @@
 #include <QDebug>
 #include "../Utils/Utils.hpp"
 #include <ranges>
+#include <windows.h>
 
 
 namespace process
@@ -23,9 +24,10 @@ namespace process
 
   std::expected< void, std::string > ProcessFetcherWindows::kill(int pid)
   {
-	  auto location = std::source_location::current();
-	  qDebug() << location.function_name() << "Implement me pls";
-	  return std::expected< void, std::string >();
+		auto procHandle = OpenProcess(PROCESS_TERMINATE, false, pid);
+	  TerminateProcess(procHandle, 1);
+		CloseHandle(procHandle);
+	  return {};
   }
 
   constexpr std::vector<Field::Field_> ProcessFetcherWindows::supportedFields()
