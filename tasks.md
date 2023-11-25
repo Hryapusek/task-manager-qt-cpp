@@ -1,5 +1,4 @@
 ## TODO
-- Windows support
 
 ## DONE
 ***23.11 01:07 - feat:*** Refresh every n seconds  
@@ -10,3 +9,4 @@
 ***24.11 14:51 - fix:*** Save scroll position after refresh  
 ***24.11 14:51 - feat:*** Linux kill implementation added  
 ***24.11 14:51 - feat:*** Toggle refresh in menu  
+***25.11 21:22 - feat:*** Windows support
