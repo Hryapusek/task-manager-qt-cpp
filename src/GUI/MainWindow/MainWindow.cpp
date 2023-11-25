@@ -18,7 +18,7 @@ MainWindow::MainWindow() :
 
   actionsHolder_ = std::make_unique< details_::ActionsHolder >(this);
   procTableViewHelper_ = std::make_unique< details_::ProcTableViewHelper >(this);
-  
+
   refreshTimer = std::make_unique< QTimer >();
   refreshTimer->setInterval(5000);
   connect(refreshTimer.get(), &QTimer::timeout, this, &MainWindow::refreshFunc);
