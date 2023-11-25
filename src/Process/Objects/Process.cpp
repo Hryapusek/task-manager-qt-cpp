@@ -34,4 +34,14 @@ namespace process
   {
     cmd_ = std::move(cmd);
   }
+
+  long Process::memory() const
+  {
+    return memory_;
+  }
+
+  void Process::memory(long memory)
+  {
+    memory_ = memory;
+  }
 }

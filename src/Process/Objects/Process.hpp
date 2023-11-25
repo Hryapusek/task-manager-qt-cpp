@@ -11,9 +11,10 @@ namespace process
   public:
     enum Field_
     {
-      PID = 0,
-      WORK_TIME = 1,
-      COMMAND = 2
+      PID,
+      WORK_TIME,
+      COMMAND,
+      MEMORY
     };
     static int toInt(Field_ col)
     {
@@ -38,6 +39,9 @@ namespace process
 
         case Field_::COMMAND:
           return "Command";
+        
+        case Field_::MEMORY:
+          return "Memory, KB";
 
         default:
           std::unreachable();
@@ -55,8 +59,11 @@ namespace process
     void time(time_t time);
     const std::string &cmd() const;
     void cmd(std::string cmd);
+    long memory() const;
+    void memory(long memory);
   private:
     int pid_;
+    long memory_;
     time_t time_;
     std::string cmd_;
   };

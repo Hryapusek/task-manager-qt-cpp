@@ -1,7 +1,7 @@
 #include "ProcTableViewHelper.hpp"
 #include "Ui/UiMainWindow.hpp"
 #include "ProcTableSortProxy.hpp"
-#include "Process/ProcessFetchers/Linux/ProcessFetcherLinux.hpp"
+#include "Process/ProcessFetchers/Windows/ProcessFetcherWindows.hpp"
 #include "Actions.hpp"
 
 namespace details_
@@ -10,7 +10,7 @@ namespace details_
     mw_(mw)
   {
     using namespace process;
-    auto fetcher = std::make_unique< ProcessFetcherLinux >();
+    auto fetcher = std::make_unique< ProcessFetcherWindows >();
     mw_->processTableModel_ = std::make_unique< ProcessTableModel >(std::move(fetcher));
     mw_->ui_->processTableView->setSelectionBehavior(QAbstractItemView::SelectionBehavior::SelectRows);
     mw_->ui_->processTableView->setSelectionMode(QAbstractItemView::SelectionMode::ExtendedSelection);

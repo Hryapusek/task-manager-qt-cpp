@@ -24,6 +24,10 @@ namespace details_
     {
       return leftProc.cmd() < rightProc.cmd();
     }
+    else if (leftObjField == Field::MEMORY)
+    {
+      return leftProc.memory() < rightProc.memory();
+    }
     else
     {
       assert(("Bro i dunno how but am sure you gotta fix dat. Comparing on unexisting column bro)))))", false));
