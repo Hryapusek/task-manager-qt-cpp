@@ -4,7 +4,7 @@
 #ifdef __WIN32
   #include "Process/ProcessFetchers/Windows/ProcessFetcherWindows.hpp"
 #else
-  #include "Process/ProcessFetchers/Windows/ProcessFetcherLinux.hpp"
+  #include "Process/ProcessFetchers/Linux/ProcessFetcherLinux.hpp"
 #endif
 #include "Actions.hpp"
 
