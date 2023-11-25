@@ -1,34 +1,37 @@
 #include "Process.hpp"
 
-Process::Process()
-{}
-
-int Process::pid() const
+namespace process
 {
-  return pid_;
-}
+  Process::Process()
+  { }
 
-void Process::pid(int pid)
-{
-  pid_ = pid;
-}
+  int Process::pid() const
+  {
+    return pid_;
+  }
 
-time_t Process::time() const
-{
-  return time_;
-}
+  void Process::pid(int pid)
+  {
+    pid_ = pid;
+  }
 
-void Process::time(time_t time)
-{
-  time_ = time;
-}
+  time_t Process::time() const
+  {
+    return time_;
+  }
 
-const std::string &Process::cmd() const
-{
-  return cmd_;
-}
+  void Process::time(time_t time)
+  {
+    time_ = time;
+  }
 
-void Process::cmd(std::string cmd)
-{
-  cmd_ = std::move(cmd);
+  const std::string &Process::cmd() const
+  {
+    return cmd_;
+  }
+
+  void Process::cmd(std::string cmd)
+  {
+    cmd_ = std::move(cmd);
+  }
 }

@@ -127,8 +127,8 @@ namespace details_
       [mw_ = this->mw_](const QPersistentModelIndex &ind) {
       auto selectionModel = mw_->ui_->processTableView->selectionModel();
       auto topLeft = QModelIndex(ind);
-      using Column = ProcessTableModel::Column;
-      auto bottomRight = mw_->processTableModel_->index(ind.row(), Column::toInt(Column::lastColumn()));
+      using process::Field;
+      auto bottomRight = mw_->processTableModel_->index(ind.row(), mw_->processTableModel_->columnCount(QModelIndex())-1);
       QItemSelectionRange range(topLeft, bottomRight);
       return range;
     });

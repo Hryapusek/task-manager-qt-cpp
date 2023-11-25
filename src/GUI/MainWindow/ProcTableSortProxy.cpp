@@ -7,17 +7,20 @@ namespace details_
 
   bool ProcTableSortProxy::lessThan(const QModelIndex &left, const QModelIndex &right) const
   {
+    using namespace process;
     auto leftProc = left.data(Qt::UserRole).value< Process >();
     auto rightProc = right.data(Qt::UserRole).value< Process >();
-    if (left.column() == ProcessTableModel::Column::PID)
+    auto model = static_cast<ProcessTableModel*>(sourceModel());
+    auto leftObjField = model->toField(left.column());
+    if (leftObjField == Field::PID)
     {
       return leftProc.pid() < rightProc.pid();
     }
-    else if (left.column() == ProcessTableModel::Column::TIME)
+    else if (leftObjField == Field::WORK_TIME)
     {
       return leftProc.time() < rightProc.time();
     }
-    else if (left.column() == ProcessTableModel::Column::CMD)
+    else if (leftObjField == Field::COMMAND)
     {
       return leftProc.cmd() < rightProc.cmd();
     }
