@@ -20,11 +20,23 @@ set(SOURCES_FILES
   Process/Objects/Process.hpp
 
   Process/ProcessFetchers/Interface/ProcessFetcherI.hpp
-  Process/ProcessFetchers/Linux/ProcessFetcherLinux.cpp
-  Process/ProcessFetchers/Linux/ProcessFetcherLinux.hpp
+  Process/ProcessFetchers/Utils/Utils.hpp
+  Process/ProcessFetchers/Utils/Utils.cpp
   Process/ProcessFetchers/Test/ProcessFetcherTest.hpp
   Process/ProcessFetchers/Test/ProcessFetcherTest.cpp
 )
+
+if (WIN32)
+  list(APPEND SOURCES_FILES
+    Process/ProcessFetchers/Windows/ProcessFetcherWindows.cpp
+    Process/ProcessFetchers/Windows/ProcessFetcherWindows.hpp
+  )
+elseif (UNIX)
+  list(APPEND SOURCES_FILES
+    Process/ProcessFetchers/Linux/ProcessFetcherLinux.cpp
+    Process/ProcessFetchers/Linux/ProcessFetcherLinux.hpp
+  )
+endif()
 
 target_sources(${target} PUBLIC
   ${SOURCES_FILES}
