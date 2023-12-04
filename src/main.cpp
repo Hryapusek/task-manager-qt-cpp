@@ -8,7 +8,6 @@ int main(int argc, char **argv)
   QApplication app(argc, argv);
   MainWindow window;
   QTranslator translator;
-  std::cerr << translator.language().toStdString();
   translator.load("rus");
   app.installTranslator(&translator);
   window.show();
