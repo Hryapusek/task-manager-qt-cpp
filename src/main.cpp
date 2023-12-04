@@ -1,5 +1,6 @@
 #include <iostream>
 #include <QApplication>
+#include <QTranslator>
 #include "GUI/MainWindow/MainWindow.hpp"
 
 int main(int argc, char **argv)

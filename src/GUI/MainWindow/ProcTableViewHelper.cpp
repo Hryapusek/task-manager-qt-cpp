@@ -35,6 +35,7 @@ namespace details_
 	  mw_->ui_->processTableView->horizontalHeader()->setSortIndicator(mw_->processTableModel_->pidColumn(), Qt::AscendingOrder);
 	  mw_->ui_->processTableView->resizeColumnsToContents();
 	  mw_->ui_->processTableView->setAutoScroll(false);
+		mw_->ui_->processTableView->horizontalHeader()->resizeSections(QHeaderView::ResizeToContents);
 	  connect(mw_->ui_->processTableView, &QTableView::customContextMenuRequested, mw_->actionsHolder_.get(), &ActionsHolder::showMenu);
   }
 }

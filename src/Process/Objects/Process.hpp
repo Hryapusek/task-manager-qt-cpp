@@ -3,6 +3,7 @@
 
 #include <string>
 #include <QMetaType>
+#include <QObject>
 
 namespace process
 {
@@ -27,21 +28,21 @@ namespace process
       assert(("Bad int. Can not convert to Field_ enum.", col >= 0 && col <= 2));
       return static_cast< Field_ >(col);
     }
-    static std::string toString(Field_ col)
+    static QString toString(Field_ col)
     {
       switch (col)
       {
         case Field_::PID:
-          return "PID";
+          return QObject::tr("PID");
 
         case Field_::WORK_TIME:
-          return "Time";
+          return QObject::tr("Time");
 
         case Field_::COMMAND:
-          return "Command";
+          return QObject::tr("Command");
         
         case Field_::MEMORY:
-          return "Memory, KB";
+          return QObject::tr("Memory, KB");
 
         default:
           std::unreachable();

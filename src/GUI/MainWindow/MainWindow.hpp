@@ -2,7 +2,7 @@
 #define MAIN_WINDOW_HPP
 
 #include <QMainWindow>
-#include <QShortcut>
+#include <QTranslator>
 #include <memory>
 #include <thread>
 #include "GUI/Model/ProcessTableModel.hpp"
@@ -21,6 +21,7 @@ namespace details_
   class MenuBarActions;
   class ProcTableSortProxy;
   class ProcTableViewHelper;
+  class LanguageHelper;
 }
 
 class MainWindow: public QMainWindow
@@ -34,14 +35,17 @@ private:
   friend class details_::ActionsHolder;
   friend class details_::MenuBarActions;
   friend class details_::ProcTableViewHelper;
+  friend class details_::LanguageHelper;
   std::unique_ptr< Ui::MainWindow > ui_;
   std::unique_ptr< ProcessTableModel > processTableModel_;
   std::unique_ptr< details_::ProcTableSortProxy > procTableSortProxy_;
   std::unique_ptr< details_::ActionsHolder > actionsHolder_;
   std::unique_ptr< details_::ProcTableViewHelper > procTableViewHelper_;
+  std::unique_ptr< details_::LanguageHelper > languageHelper_;
   std::mutex procListMut_;
   std::unique_ptr< QTimer > refreshTimer;
   void refreshFunc();
+  void changeEvent(QEvent *event) override;
 };
 
 #endif

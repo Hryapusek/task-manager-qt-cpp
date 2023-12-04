@@ -4,6 +4,7 @@
 #include "ProcTableViewHelper.hpp"
 #include "Actions.hpp"
 #include "ProcTableSortProxy.hpp"
+#include "LanguageHelper.hpp"
 #include <mutex>
 #include <QTimer>
 #include <QDebug>
@@ -18,6 +19,7 @@ MainWindow::MainWindow() :
 
   actionsHolder_ = std::make_unique< details_::ActionsHolder >(this);
   procTableViewHelper_ = std::make_unique< details_::ProcTableViewHelper >(this);
+  languageHelper_ = std::make_unique< details_::LanguageHelper >(this);
 
   refreshTimer = std::make_unique< QTimer >();
   refreshTimer->setInterval(5000);
@@ -36,4 +38,15 @@ void MainWindow::refreshFunc()
   auto showError = true;
   actionsHolder_->refresh(showError);
   lock.unlock();
+}
+
+void MainWindow::changeEvent(QEvent * event)
+{
+  if (event->type() == QEvent::LanguageChange)
+  {
+    ui_->retranslateUi(this);
+    ui_->processTableView->horizontalHeader()->resizeSections(QHeaderView::ResizeToContents);
+    return;
+  }
+  return QMainWindow::changeEvent(event);
 }
