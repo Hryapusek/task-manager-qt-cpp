@@ -12,6 +12,8 @@ set(SOURCES_FILES
   GUI/MainWindow/ProcTableViewHelper.hpp
   GUI/MainWindow/MenuBarActions.hpp
   GUI/MainWindow/MenuBarActions.cpp
+  GUI/MainWindow/LanguageHelper.hpp
+  GUI/MainWindow/LanguageHelper.cpp
   GUI/MainWindow/Ui/UiMainWindow.hpp
   GUI/MainWindow/Utils/ConditionAction.cpp
   GUI/MainWindow/Utils/ConditionAction.hpp
