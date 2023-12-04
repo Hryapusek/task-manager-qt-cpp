@@ -92,7 +92,7 @@ QVariant ProcessTableModel::headerData(int section, Qt::Orientation orientation,
   if (role == Qt::ItemDataRole::DisplayRole)
   {
     auto columnName = Field::toString(supportedFields_[section]);
-    return QString::fromStdString(columnName);
+    return columnName;
   }
   else if (role == Qt::ItemDataRole::TextAlignmentRole)
   {

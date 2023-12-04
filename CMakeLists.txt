@@ -12,14 +12,16 @@ cmake_policy(SET CMP0076 NEW)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets REQUIRED)
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets REQUIRED)
+find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets Core LinguistTools REQUIRED)
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets Core LinguistTools REQUIRED)
+qt_create_translation(TR_FILES ${CMAKE_SOURCE_DIR} translations/rus.ts)
 
 option(build_test_executable OFF)
 
 add_executable(${target})
 target_include_directories(${target} PUBLIC src)
 target_link_libraries(${target} PUBLIC Qt${QT_VERSION_MAJOR}::Widgets)
+target_sources(${target} PRIVATE ${TR_FILES})
 
 if (build_test_executable)
   set(test_target test_target)
