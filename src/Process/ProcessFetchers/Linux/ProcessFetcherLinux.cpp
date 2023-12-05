@@ -96,12 +96,12 @@ namespace process
 TEST(ProcessFetcherLinux, parsePsCommandTest)
 {
   {
-    Splitter splitter("a\nb\nc\nd\n", "\n");
+    process::utils::Splitter splitter("a\nb\nc\nd\n", "\n");
     auto res = splitter.next().value();
     EXPECT_EQ(std::string(res.first, res.second), "a");
   }
   {
-    Splitter splitter("damn\njeeeez\namogus", " \n");
+    process::utils::Splitter splitter("damn\njeeeez\namogus", " \n");
     auto res = splitter.next().value();
     EXPECT_EQ(std::string(res.first, res.second), "damn");
     res = splitter.next().value();
