@@ -15,6 +15,9 @@ set(SOURCES_FILES
   GUI/MainWindow/LanguageHelper.hpp
   GUI/MainWindow/LanguageHelper.cpp
   GUI/MainWindow/Ui/mainwindow.ui
+  GUI/MainWindow/Settings/SettingsDialog.hpp
+  GUI/MainWindow/Settings/SettingsDialog.cpp
+  GUI/MainWindow/Settings/Ui/settings.ui
   GUI/MainWindow/Utils/ConditionAction.cpp
   GUI/MainWindow/Utils/ConditionAction.hpp
 
