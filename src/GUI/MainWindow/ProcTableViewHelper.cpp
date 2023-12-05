@@ -1,5 +1,5 @@
 #include "ProcTableViewHelper.hpp"
-#include "Ui/UiMainWindow.hpp"
+#include "Ui/ui_mainwindow.h"
 #include "ProcTableSortProxy.hpp"
 #ifdef __WIN32
   #include "Process/ProcessFetchers/Windows/ProcessFetcherWindows.hpp"

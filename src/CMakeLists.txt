@@ -14,7 +14,7 @@ set(SOURCES_FILES
   GUI/MainWindow/MenuBarActions.cpp
   GUI/MainWindow/LanguageHelper.hpp
   GUI/MainWindow/LanguageHelper.cpp
-  GUI/MainWindow/Ui/UiMainWindow.hpp
+  GUI/MainWindow/Ui/mainwindow.ui
   GUI/MainWindow/Utils/ConditionAction.cpp
   GUI/MainWindow/Utils/ConditionAction.hpp
 

@@ -1,6 +1,6 @@
 #include "MenuBarActions.hpp"
 #include "MainWindow.hpp"
-#include "Ui/UiMainWindow.hpp"
+#include "Ui/ui_mainwindow.h"
 #include <QTimer>
 
 namespace details_
