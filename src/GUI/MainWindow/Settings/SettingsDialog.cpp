@@ -1,6 +1,9 @@
 #include "SettingsDialog.hpp"
 #include "Ui/ui_settings.h"
+#include "StyleContainerBuilder.hpp"
 #include <filesystem>
+#include <vector>
+#include <QPushButton>
 
 namespace
 {
@@ -12,9 +15,9 @@ namespace
     for (auto const &entry : dirEntries)
     {
       if (entry.is_regular_file() && entry.path().extension() == ".qss")
-      { 
+      {
         auto styleFileName = entry.path().filename().string();
-        styleFileName = styleFileName.substr(0, styleFileName.size()-4);
+        styleFileName = styleFileName.substr(0, styleFileName.size() - 4);
         styleNames.push_back(std::string(styleFileName));
       }
     }
@@ -25,35 +28,30 @@ namespace
 SettingsDialog::SettingsDialog(QWidget *parent) :
   ui_(std::make_unique< Ui::SettingsDialog >())
 {
-  setupUi();
-
+  ui_->setupUi(this);
+  setupStyle();
+  connect(ui_->applyBtn, &QPushButton::clicked, this, &SettingsDialog::apply);
 }
 
-constexpr QStringList SettingsDialog::styleNames() const
+details_::StyleContainer &SettingsDialog::styleGroup()
 {
-  return styleContainer.styleNames;
+  return *styleContainer_.get();
 }
 
 SettingsDialog::~SettingsDialog()
-{
-}
+{ }
 
-void SettingsDialog::setupUi()
+void SettingsDialog::setupStyle()
 {
-  ui_->setupUi(this);
-  styleContainer.styleBox = ui_->style_styleBox;
-  fillStyleBox();
-}
-
-void SettingsDialog::fillStyleBox()
-{
+  details_::StyleContainerBuilder builder;
+  builder.setStyleBox(ui_->style_styleBox);
   auto styleNames = getStyleNames();
-  QStringList names;
-  for (auto const &name : styleNames)
-    names << QString::fromStdString(name);
-  styleContainer.styleBox->addItems(names);
-  styleContainer.styleNames = names;
+  styleNames.insert(styleNames.begin(), "None");
+  builder.setStyleNames(styleNames);
+  builder.setStyleName(QString::fromStdString(styleNames[0]));
+  styleContainer_ = std::make_unique< details_::StyleContainer >(std::move(builder).result());
 }
+
 
 #ifdef GTEST_TESTING
 #include <gtest/gtest.h>
