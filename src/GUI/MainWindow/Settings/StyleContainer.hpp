@@ -12,7 +12,7 @@ namespace details_
   {
   public:
     constexpr QStringList styleNames() const;
-    constexpr QString styleName() const;
+    QString styleName() const;
     // Remove this if unused
     void setStyleName(const QString &styleName);
 
