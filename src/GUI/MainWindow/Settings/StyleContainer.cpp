@@ -1,4 +1,5 @@
 #include "StyleContainer.hpp"
+#include <source_location>
 #include <QComboBox>
 #include <QDebug>
 
@@ -9,7 +10,7 @@ namespace details_
     return styleNames_;
   }
 
-  constexpr QString StyleContainer::styleName() const
+  QString StyleContainer::styleName() const
   {
     return styleBox_->currentText();
   }
@@ -18,7 +19,8 @@ namespace details_
   {
     if (!styleNames_.contains(styleName))
     {
-      qDebug() << "Style name " << styleName << " not found";
+      std::source_location location = std::source_location::current();
+      qDebug() << location.function_name() << "Style name " << styleName << " not found";
       return;
     }
     styleBox_->setCurrentText(styleName);
