@@ -26,6 +26,7 @@ namespace
 }
 
 SettingsDialog::SettingsDialog(QWidget *parent) :
+  QDialog(parent),
   ui_(std::make_unique< Ui::SettingsDialog >())
 {
   ui_->setupUi(this);
@@ -45,10 +46,12 @@ void SettingsDialog::setupStyle()
 {
   details_::StyleContainerBuilder builder;
   builder.setStyleBox(ui_->style_styleBox);
+
   auto styleNames = getStyleNames();
   styleNames.insert(styleNames.begin(), "None");
   builder.setStyleNames(styleNames);
   builder.setStyleName(QString::fromStdString(styleNames[0]));
+  
   styleContainer_ = std::make_unique< details_::StyleContainer >(std::move(builder).result());
 }
 
