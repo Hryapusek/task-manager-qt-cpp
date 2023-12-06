@@ -18,6 +18,12 @@ set(SOURCES_FILES
   GUI/MainWindow/Settings/SettingsDialog.hpp
   GUI/MainWindow/Settings/SettingsDialog.cpp
   GUI/MainWindow/Settings/Ui/settings.ui
+  GUI/MainWindow/Settings/StyleContainer.hpp
+  GUI/MainWindow/Settings/StyleContainer.cpp
+  GUI/MainWindow/Settings/StyleContainerBuilder.hpp
+  GUI/MainWindow/Settings/StyleContainerBuilder.cpp
+  GUI/MainWindow/Settings.hpp
+  GUI/MainWindow/Settings.cpp
   GUI/MainWindow/Utils/ConditionAction.cpp
   GUI/MainWindow/Utils/ConditionAction.hpp
 
