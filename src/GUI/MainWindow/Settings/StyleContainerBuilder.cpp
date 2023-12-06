@@ -41,7 +41,7 @@ namespace details_
 
   void StyleContainerBuilder::setStyleNames_(QStringList styleNames)
   {
-    styleNames = styleNames;
+    result_.styleNames_ = styleNames;
     if (result_.styleBox_)
       fillStyleBox_(styleNames);
   }
