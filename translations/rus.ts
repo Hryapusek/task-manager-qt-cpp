@@ -5,21 +5,31 @@
     <name>MainWindow</name>
     <message>
         <location filename="../src/GUI/MainWindow/Ui/mainwindow.ui" line="14"/>
-        <location filename="../src/GUI/MainWindow/Ui/UiMainWindow.hpp" line="76"/>
+        <location filename="../build/task_manager_autogen/include/Ui/ui_mainwindow.h" line="100"/>
+        <location filename="../build/test_target_autogen/include/Ui/ui_mainwindow.h" line="100"/>
         <source>MainWindow</source>
         <translation>Главное окно</translation>
     </message>
     <message>
-        <location filename="../src/GUI/MainWindow/Ui/mainwindow.ui" line="34"/>
-        <location filename="../src/GUI/MainWindow/Ui/UiMainWindow.hpp" line="78"/>
+        <location filename="../src/GUI/MainWindow/Ui/mainwindow.ui" line="54"/>
+        <location filename="../build/task_manager_autogen/include/Ui/ui_mainwindow.h" line="103"/>
+        <location filename="../build/test_target_autogen/include/Ui/ui_mainwindow.h" line="103"/>
         <source>Options</source>
         <translation>Настройки</translation>
     </message>
     <message>
-        <location filename="../src/GUI/MainWindow/Ui/mainwindow.ui" line="49"/>
-        <location filename="../src/GUI/MainWindow/Ui/UiMainWindow.hpp" line="77"/>
+        <location filename="../src/GUI/MainWindow/Ui/mainwindow.ui" line="70"/>
+        <location filename="../build/task_manager_autogen/include/Ui/ui_mainwindow.h" line="101"/>
+        <location filename="../build/test_target_autogen/include/Ui/ui_mainwindow.h" line="101"/>
         <source>Refresh</source>
         <translation>Обновить</translation>
+    </message>
+    <message>
+        <location filename="../src/GUI/MainWindow/Ui/mainwindow.ui" line="75"/>
+        <location filename="../build/task_manager_autogen/include/Ui/ui_mainwindow.h" line="102"/>
+        <location filename="../build/test_target_autogen/include/Ui/ui_mainwindow.h" line="102"/>
+        <source>Preferences</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -56,6 +66,32 @@
         <location filename="../src/Process/Objects/Process.hpp" line="45"/>
         <source>Memory, KB</source>
         <translation>Память, Кб</translation>
+    </message>
+</context>
+<context>
+    <name>SettingsDialog</name>
+    <message>
+        <location filename="../src/GUI/MainWindow/Settings/Ui/settings.ui" line="14"/>
+        <location filename="../build/task_manager_autogen/include/Ui/ui_settings.h" line="140"/>
+        <location filename="../build/test_target_autogen/include/Ui/ui_settings.h" line="122"/>
+        <source>Dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/GUI/MainWindow/Settings/Ui/settings.ui" line="41"/>
+        <location filename="../src/GUI/MainWindow/Settings/Ui/settings.ui" line="64"/>
+        <location filename="../build/task_manager_autogen/include/Ui/ui_settings.h" line="145"/>
+        <location filename="../build/task_manager_autogen/include/Ui/ui_settings.h" line="148"/>
+        <location filename="../build/test_target_autogen/include/Ui/ui_settings.h" line="127"/>
+        <location filename="../build/test_target_autogen/include/Ui/ui_settings.h" line="130"/>
+        <source>Style</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/GUI/MainWindow/Settings/Ui/settings.ui" line="110"/>
+        <location filename="../build/task_manager_autogen/include/Ui/ui_settings.h" line="149"/>
+        <source>Apply</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

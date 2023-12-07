@@ -1,9 +1,10 @@
 #include "SettingsDialog.hpp"
 #include "Ui/ui_settings.h"
-#include "StyleContainerBuilder.hpp"
+#include <QDebug>
 #include <filesystem>
 #include <vector>
 #include <QPushButton>
+#include <source_location>
 
 namespace
 {
@@ -30,13 +31,24 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
   ui_(std::make_unique< Ui::SettingsDialog >())
 {
   ui_->setupUi(this);
+  settingsUi_.styleUi.styleBox_ = ui_->style_styleBox;
   setupStyle();
   connect(ui_->applyBtn, &QPushButton::clicked, this, &SettingsDialog::apply);
 }
 
-details_::StyleContainer &SettingsDialog::styleGroup()
+const SettingsMemento &SettingsDialog::getMemento() const
 {
-  return *styleContainer_.get();
+  return memento_;
+}
+
+void SettingsDialog::setMemento(const SettingsMemento &memento)
+{
+  memento_ = memento;
+}
+
+void SettingsDialog::updateUi()
+{
+  
 }
 
 SettingsDialog::~SettingsDialog()
@@ -44,15 +56,17 @@ SettingsDialog::~SettingsDialog()
 
 void SettingsDialog::setupStyle()
 {
-  details_::StyleContainerBuilder builder;
-  builder.setStyleBox(ui_->style_styleBox);
+  // TODO move it into updateUi
 
-  auto styleNames = getStyleNames();
-  styleNames.insert(styleNames.begin(), "None");
-  builder.setStyleNames(styleNames);
-  builder.setStyleName(QString::fromStdString(styleNames[0]));
-  
-  styleContainer_ = std::make_unique< details_::StyleContainer >(std::move(builder).result());
+  // details_::StyleContainerBuilder builder;
+  // builder.setStyleBox(ui_->style_styleBox);
+
+  // auto styleNames = getStyleNames();
+  // styleNames.insert(styleNames.begin(), "None");
+  // builder.setStyleNames(styleNames);
+  // builder.setStyleName(QString::fromStdString(styleNames[0]));
+
+  // styleContainer_ = std::make_unique< details_::StyleContainer >(std::move(builder).result());
 }
 
 

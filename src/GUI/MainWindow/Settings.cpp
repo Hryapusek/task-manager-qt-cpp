@@ -13,9 +13,11 @@ namespace details_
     mw_(mw)
   {
     dialog_ = std::make_unique< SettingsDialog >(static_cast< QWidget * >(mw));
+    settingsMemento_ = dialog_->getMemento();
     connect(mw_->ui_->preferencesMenuAct, &QAction::triggered, this, &Settings::showDialog_);
     connect(dialog_.get(), &SettingsDialog::apply, this, &Settings::apply);
     connect(dialog_.get(), &QDialog::accepted, this, &Settings::apply);
+    connect(dialog_.get(), &QDialog::rejected, this, &Settings::rejected);
   }
 
   SettingsDialog *Settings::dialog()
@@ -25,7 +27,13 @@ namespace details_
 
   void Settings::apply()
   {
+    settingsMemento_ = dialog_->getMemento();
     applyStyle_();
+  }
+
+  void Settings::rejected()
+  {
+    dialog_->setMemento(settingsMemento_);
   }
 
   Settings::~Settings() = default;
@@ -53,8 +61,6 @@ namespace details_
 
   void Settings::showDialog_()
   {
-    std::source_location location = std::source_location::current();
-    qDebug() << location.function_name() << "Show setting dialog requested";
     dialog_->show();
   }
 }

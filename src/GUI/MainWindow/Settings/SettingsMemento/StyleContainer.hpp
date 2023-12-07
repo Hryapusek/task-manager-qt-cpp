@@ -11,16 +11,16 @@ namespace details_
   class StyleContainer
   {
   public:
+    StyleContainer() = default;
     constexpr QStringList styleNames() const;
     QString styleName() const;
-    // Remove this if unused
     void setStyleName(const QString &styleName);
+    void setStyleNames(const QStringList &styleNames);
+    void setStyleNames(std::vector< std::string > styleNames);
 
   private:
-    StyleContainer() = default;
-    friend class StyleContainerBuilder;
-    QComboBox *styleBox_ = nullptr;
     QStringList styleNames_;
+    QString currentStyle_;
   };
 }
 

@@ -2,7 +2,8 @@
 #define SETTINGS_DIALOG_HPP
 
 #include <QDialog>
-#include "StyleContainer.hpp"
+#include "Ui/SettingsUi.hpp"
+#include "SettingsMemento/SettingsMemento.hpp"
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -18,15 +19,19 @@ class SettingsDialog: public QDialog
   Q_OBJECT
 public:
   SettingsDialog(QWidget *parent);
-  details_::StyleContainer &styleGroup();
+  const SettingsMemento &getMemento() const;
+  void setMemento(const SettingsMemento &memento);
+  void updateUi();
   ~SettingsDialog();
 
 signals:
   void apply();
 
 private:
+  friend class SettingsMemento;
+  SettingsMemento memento_;
+  details_::SettingsUi settingsUi_;
   std::unique_ptr< Ui::SettingsDialog > ui_;
-  std::unique_ptr< details_::StyleContainer > styleContainer_;
   void setupStyle();
 };
 

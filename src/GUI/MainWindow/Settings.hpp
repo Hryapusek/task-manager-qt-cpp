@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <QObject>
+#include "Settings/SettingsMemento/SettingsMemento.hpp"
 
 class SettingsDialog;
 class MainWindow;
@@ -18,6 +19,7 @@ namespace details_
     /// @note Do not save returned pointer
     SettingsDialog *dialog();
     void apply();
+    void rejected();
     ~Settings();
 
   signals:
@@ -26,6 +28,7 @@ namespace details_
 
   private:
     std::unique_ptr< SettingsDialog > dialog_;
+    SettingsMemento settingsMemento_;
     MainWindow *mw_;
     void applyStyle_();
     void showDialog_();
