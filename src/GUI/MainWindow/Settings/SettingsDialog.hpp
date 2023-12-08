@@ -21,9 +21,10 @@ public:
   SettingsDialog(SettingsMemento memento, QWidget *parent);
   const SettingsMemento &getMemento() const;
   void setMemento(const SettingsMemento &memento);
+  // Use after setMemento()
   void updateUi();
   void apply();
-  
+
   ~SettingsDialog();
 
 signals:
