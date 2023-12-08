@@ -7,6 +7,8 @@
 - Split cmake file into several
 - Watch unsaved changes in settings (Maybe pattern memento?)
 - Save settings to file?
+- Sorting by resources usage
+- CTRL+F: search processes
 
 ## DONE
 ***23.11 01:07 - feat:*** Refresh every n seconds  

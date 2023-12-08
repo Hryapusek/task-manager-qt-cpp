@@ -67,6 +67,16 @@
         <source>Memory, KB</source>
         <translation>Память, Кб</translation>
     </message>
+    <message>
+        <location filename="../src/GUI/MainWindow/Settings/SettingsMemento/StyleContainerCreator.cpp" line="49"/>
+        <source>Can not convert CurrentStyle to QString</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/GUI/MainWindow/Settings/SettingsMemento/StyleContainerCreator.cpp" line="52"/>
+        <source>Can not convert StyleNames to StringList</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SettingsDialog</name>

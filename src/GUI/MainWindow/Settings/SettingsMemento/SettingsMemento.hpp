@@ -10,10 +10,9 @@ class SettingsMemento
 {
 public:
   using Builder_t = SettingsMementoBuilder;
-  /**
-   * @note Maybe nullptr
-   */
   const details_::StyleContainer &style() const;
+  details_::StyleContainer &style();
+  void setStyle(details_::StyleContainer styleContainer);
 
 private:
   friend class SettingsMementoBuilder;

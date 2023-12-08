@@ -6,16 +6,27 @@
 #include <source_location>
 #include "MainWindow.hpp"
 #include "Ui/ui_mainwindow.h"
+#include "Settings/SettingsMemento/SettingsMementoCreator.hpp"
 
 namespace details_
 {
   Settings::Settings(MainWindow *mw) :
     mw_(mw)
   {
-    dialog_ = std::make_unique< SettingsDialog >(static_cast< QWidget * >(mw));
-    settingsMemento_ = dialog_->getMemento();
+    auto res = SettingsMementoCreator::readMementoFromFile();
+    if (res)
+    {
+      settingsMemento_ = *res;
+    }
+    else
+    {
+      qDebug() << "Could not read a memento " << res.error();
+      settingsMemento_ = SettingsMementoCreator::createDefault();
+      SettingsMementoCreator::writeMementoToFile(settingsMemento_);
+    }
+    dialog_ = std::make_unique< SettingsDialog >(settingsMemento_, static_cast< QWidget * >(mw));
     connect(mw_->ui_->preferencesMenuAct, &QAction::triggered, this, &Settings::showDialog_);
-    connect(dialog_.get(), &SettingsDialog::apply, this, &Settings::apply);
+    connect(dialog_.get(), &SettingsDialog::applySig, this, &Settings::apply);
     connect(dialog_.get(), &QDialog::accepted, this, &Settings::apply);
     connect(dialog_.get(), &QDialog::rejected, this, &Settings::rejected);
   }
@@ -28,19 +39,21 @@ namespace details_
   void Settings::apply()
   {
     settingsMemento_ = dialog_->getMemento();
+    SettingsMementoCreator::writeMementoToFile(settingsMemento_);
     applyStyle_();
   }
 
   void Settings::rejected()
   {
     dialog_->setMemento(settingsMemento_);
+    dialog_->updateUi();
   }
 
   Settings::~Settings() = default;
 
   void Settings::applyStyle_()
   {
-    auto styleName = dialog_->styleGroup().styleName();
+    auto styleName = settingsMemento_.style().styleName();
     if (styleName == "None")
     {
       qApp->setStyleSheet(QString());

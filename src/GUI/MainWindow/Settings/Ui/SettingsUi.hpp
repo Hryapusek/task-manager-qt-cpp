@@ -10,6 +10,7 @@ namespace details_
   { 
     StyleUi styleUi;
     void updateUi(const SettingsMemento &memento);
+    void updateMemento(SettingsMemento &memento);
   };
 }
 

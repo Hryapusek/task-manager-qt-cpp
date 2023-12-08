@@ -5,7 +5,7 @@
 
 namespace details_
 {
-  constexpr QStringList StyleContainer::styleNames() const
+  QStringList StyleContainer::styleNames() const
   {
     return styleNames_;
   }

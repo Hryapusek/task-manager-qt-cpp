@@ -12,7 +12,7 @@ namespace details_
   {
   public:
     StyleContainer() = default;
-    constexpr QStringList styleNames() const;
+    QStringList styleNames() const;
     QString styleName() const;
     void setStyleName(const QString &styleName);
     void setStyleNames(const QStringList &styleNames);

@@ -11,7 +11,9 @@ namespace details_
   struct StyleUi
   {
     QComboBox *styleBox_ = nullptr;
+
     void updateUi(const SettingsMemento &memento);
+    void updateMemento(SettingsMemento &memento);
   };
 }
 

@@ -18,20 +18,23 @@ class SettingsDialog: public QDialog
 {
   Q_OBJECT
 public:
-  SettingsDialog(QWidget *parent);
+  SettingsDialog(SettingsMemento memento, QWidget *parent);
   const SettingsMemento &getMemento() const;
   void setMemento(const SettingsMemento &memento);
   void updateUi();
+  void apply();
+  
   ~SettingsDialog();
 
 signals:
-  void apply();
+  void applySig();
 
 private:
   friend class SettingsMemento;
   SettingsMemento memento_;
   details_::SettingsUi settingsUi_;
   std::unique_ptr< Ui::SettingsDialog > ui_;
+  void setupUi();
   void setupStyle();
 };
 

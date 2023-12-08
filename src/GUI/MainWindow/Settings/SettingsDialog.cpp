@@ -5,35 +5,19 @@
 #include <vector>
 #include <QPushButton>
 #include <source_location>
+#include <QTimer>
 
-namespace
-{
-  std::vector< std::string > getStyleNames()
-  {
-    namespace fs = std::filesystem;
-    std::vector< std::string > styleNames;
-    auto dirEntries = fs::directory_iterator(fs::current_path() / "styles");
-    for (auto const &entry : dirEntries)
-    {
-      if (entry.is_regular_file() && entry.path().extension() == ".qss")
-      {
-        auto styleFileName = entry.path().filename().string();
-        styleFileName = styleFileName.substr(0, styleFileName.size() - 4);
-        styleNames.push_back(std::string(styleFileName));
-      }
-    }
-    return styleNames;
-  }
-}
-
-SettingsDialog::SettingsDialog(QWidget *parent) :
+SettingsDialog::SettingsDialog(SettingsMemento memento, QWidget *parent) :
   QDialog(parent),
   ui_(std::make_unique< Ui::SettingsDialog >())
 {
   ui_->setupUi(this);
-  settingsUi_.styleUi.styleBox_ = ui_->style_styleBox;
-  setupStyle();
+  setupUi();
+  memento_ = std::move(memento);
+  updateUi();
   connect(ui_->applyBtn, &QPushButton::clicked, this, &SettingsDialog::apply);
+  connect(ui_->applyBtn, &QPushButton::clicked, this, &SettingsDialog::applySig);
+  QTimer::singleShot(0, this, &SettingsDialog::applySig);
 }
 
 const SettingsMemento &SettingsDialog::getMemento() const
@@ -47,28 +31,27 @@ void SettingsDialog::setMemento(const SettingsMemento &memento)
 }
 
 void SettingsDialog::updateUi()
+{ 
+  settingsUi_.updateUi(memento_);
+}
+
+void SettingsDialog::setupUi()
 {
-  
+  setupStyle();
+}
+
+void SettingsDialog::apply()
+{ 
+  settingsUi_.updateMemento(memento_);
+}
+
+void SettingsDialog::setupStyle()
+{
+  settingsUi_.styleUi.styleBox_ = ui_->style_styleBox;
 }
 
 SettingsDialog::~SettingsDialog()
 { }
-
-void SettingsDialog::setupStyle()
-{
-  // TODO move it into updateUi
-
-  // details_::StyleContainerBuilder builder;
-  // builder.setStyleBox(ui_->style_styleBox);
-
-  // auto styleNames = getStyleNames();
-  // styleNames.insert(styleNames.begin(), "None");
-  // builder.setStyleNames(styleNames);
-  // builder.setStyleName(QString::fromStdString(styleNames[0]));
-
-  // styleContainer_ = std::make_unique< details_::StyleContainer >(std::move(builder).result());
-}
-
 
 #ifdef GTEST_TESTING
 #include <gtest/gtest.h>

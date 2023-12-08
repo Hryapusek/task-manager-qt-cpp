@@ -22,10 +22,6 @@ namespace details_
     void rejected();
     ~Settings();
 
-  signals:
-    // Remove if unused
-    void applySig();
-
   private:
     std::unique_ptr< SettingsDialog > dialog_;
     SettingsMemento settingsMemento_;
