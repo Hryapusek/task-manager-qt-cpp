@@ -1,10 +1,11 @@
 #include "MainWindow.hpp"
-#include "Ui/UiMainWindow.hpp"
+#include "Ui/ui_mainwindow.h"
 #include "GUI/Model/ProcessTableModel.hpp"
 #include "ProcTableViewHelper.hpp"
 #include "Actions.hpp"
 #include "ProcTableSortProxy.hpp"
 #include "LanguageHelper.hpp"
+#include "Settings.hpp"
 #include <mutex>
 #include <QTimer>
 #include <QDebug>
@@ -20,6 +21,7 @@ MainWindow::MainWindow() :
   actionsHolder_ = std::make_unique< details_::ActionsHolder >(this);
   procTableViewHelper_ = std::make_unique< details_::ProcTableViewHelper >(this);
   languageHelper_ = std::make_unique< details_::LanguageHelper >(this);
+  settings_ = std::make_unique< details_::Settings > (this);
 
   refreshTimer = std::make_unique< QTimer >();
   refreshTimer->setInterval(5000);

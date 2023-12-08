@@ -14,7 +14,24 @@ set(SOURCES_FILES
   GUI/MainWindow/MenuBarActions.cpp
   GUI/MainWindow/LanguageHelper.hpp
   GUI/MainWindow/LanguageHelper.cpp
-  GUI/MainWindow/Ui/UiMainWindow.hpp
+  GUI/MainWindow/Ui/mainwindow.ui
+  GUI/MainWindow/Settings/SettingsDialog.hpp
+  GUI/MainWindow/Settings/SettingsDialog.cpp
+  GUI/MainWindow/Settings/Ui/settings.ui
+  GUI/MainWindow/Settings/Ui/SettingsUi.hpp
+  GUI/MainWindow/Settings/Ui/SettingsUi.cpp
+  GUI/MainWindow/Settings/Ui/StyleUi.hpp
+  GUI/MainWindow/Settings/Ui/StyleUi.cpp
+  GUI/MainWindow/Settings/SettingsMemento/StyleContainer.hpp
+  GUI/MainWindow/Settings/SettingsMemento/StyleContainer.cpp
+  GUI/MainWindow/Settings/SettingsMemento/StyleContainerCreator.hpp
+  GUI/MainWindow/Settings/SettingsMemento/StyleContainerCreator.cpp
+  GUI/MainWindow/Settings/SettingsMemento/SettingsMemento.hpp
+  GUI/MainWindow/Settings/SettingsMemento/SettingsMemento.cpp
+  GUI/MainWindow/Settings/SettingsMemento/SettingsMementoCreator.hpp
+  GUI/MainWindow/Settings/SettingsMemento/SettingsMementoCreator.cpp
+  GUI/MainWindow/Settings.hpp
+  GUI/MainWindow/Settings.cpp
   GUI/MainWindow/Utils/ConditionAction.cpp
   GUI/MainWindow/Utils/ConditionAction.hpp
 
@@ -26,6 +43,9 @@ set(SOURCES_FILES
   Process/ProcessFetchers/Utils/Utils.cpp
   Process/ProcessFetchers/Test/ProcessFetcherTest.hpp
   Process/ProcessFetchers/Test/ProcessFetcherTest.cpp
+  
+  ApplicationInfo.hpp
+  ApplicationInfo.cpp
 )
 
 if (WIN32)

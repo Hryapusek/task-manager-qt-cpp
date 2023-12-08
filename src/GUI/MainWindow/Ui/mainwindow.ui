@@ -54,6 +54,7 @@
      <string>Options</string>
     </property>
     <addaction name="refreshOpt"/>
+    <addaction name="preferencesMenuAct"/>
    </widget>
    <addaction name="menuOptions"/>
   </widget>
@@ -67,6 +68,11 @@
    </property>
    <property name="text">
     <string>Refresh</string>
+   </property>
+  </action>
+  <action name="preferencesMenuAct">
+   <property name="text">
+    <string>Preferences</string>
    </property>
   </action>
  </widget>

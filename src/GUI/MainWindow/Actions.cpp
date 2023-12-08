@@ -1,6 +1,6 @@
 #include "Actions.hpp"
 #include "MainWindow.hpp"
-#include "Ui/UiMainWindow.hpp"
+#include "Ui/ui_mainwindow.h"
 #include "GUI/Model/ProcessTableModel.hpp"
 #include "Process/ProcessFetchers/Test/ProcessFetcherTest.hpp"
 

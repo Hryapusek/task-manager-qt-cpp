@@ -27,6 +27,10 @@ target_include_directories(${target} PUBLIC src)
 target_link_libraries(${target} PUBLIC Qt${QT_VERSION_MAJOR}::Widgets)
 target_sources(${target} PRIVATE ${TR_FILES})
 
+file(GLOB_RECURSE style_files styles/*.qss)
+message("Found style files ${style_files}")
+file(COPY ${style_files} DESTINATION ${CMAKE_BINARY_DIR}/styles)
+
 if (build_test_executable)
   set(test_target test_target)
   add_executable(${test_target})
