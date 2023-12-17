@@ -103,6 +103,17 @@
         <source>Apply</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../src/GUI/MainWindow/Settings/SettingsDialog.cpp" line="80"/>
+        <source>Unsaved changes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/GUI/MainWindow/Settings/SettingsDialog.cpp" line="81"/>
+        <source>There are unsaved changes. Would you like to save them?
+</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>details_::ActionsHolder</name>
