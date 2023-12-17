@@ -13,3 +13,8 @@ details_::StyleContainer &SettingsMemento::style()
 void SettingsMemento::setStyle(details_::StyleContainer styleContainer) {
   styleContainer_ = std::move(styleContainer);
 }
+
+bool SettingsMemento::operator==(const SettingsMemento &rhs) const
+{
+  return styleContainer_ == rhs.styleContainer_;
+}
