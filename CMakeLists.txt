@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.10)
 
 project(task_manager LANGUAGES CXX)
 
+include(conan_toolchain.cmake)
+
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)

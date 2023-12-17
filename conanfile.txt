@@ -1,0 +1,9 @@
+[requires]
+qt/5.15.11
+
+[generators]
+CMakeDeps
+CMakeToolchain
+
+[layout]
+cmake_layout
