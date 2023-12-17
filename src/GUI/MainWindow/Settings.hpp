@@ -19,14 +19,12 @@ namespace details_
     /// @note Do not save returned pointer
     SettingsDialog *dialog();
     void apply();
-    void rejected();
     ~Settings();
 
   private:
     std::unique_ptr< SettingsDialog > dialog_;
-    SettingsMemento settingsMemento_;
     MainWindow *mw_;
-    void applyStyle_();
+    void applyStyle_(const SettingsMemento &settingsMemento);
     void showDialog_();
   };
 }

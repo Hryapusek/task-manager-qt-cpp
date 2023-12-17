@@ -7,6 +7,7 @@
 void details_::StyleUi::updateUi(const SettingsMemento &memento)
 {
   assert(styleBox_ != nullptr);
+  styleBox_->clear();
   styleBox_->addItems(memento.style().styleNames());
   if (!memento.style().styleNames().contains(memento.style().styleName()))
   {

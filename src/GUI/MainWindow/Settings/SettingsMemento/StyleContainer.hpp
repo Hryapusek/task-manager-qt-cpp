@@ -17,6 +17,7 @@ namespace details_
     void setStyleName(const QString &styleName);
     void setStyleNames(const QStringList &styleNames);
     void setStyleNames(std::vector< std::string > styleNames);
+    bool operator==(const StyleContainer &rhs) const;
 
   private:
     QStringList styleNames_;

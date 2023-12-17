@@ -13,6 +13,7 @@ public:
   const details_::StyleContainer &style() const;
   details_::StyleContainer &style();
   void setStyle(details_::StyleContainer styleContainer);
+  bool operator==(const SettingsMemento &rhs) const;
 
 private:
   friend class SettingsMementoBuilder;

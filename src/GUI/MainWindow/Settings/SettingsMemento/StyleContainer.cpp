@@ -32,4 +32,9 @@ namespace details_
       names << QString::fromStdString(name);
     setStyleNames(names);
   }
+  
+  bool StyleContainer::operator==(const StyleContainer &rhs) const
+  {
+    return styleNames_ == rhs.styleNames_ and currentStyle_ == rhs.currentStyle_;
+  }
 }
