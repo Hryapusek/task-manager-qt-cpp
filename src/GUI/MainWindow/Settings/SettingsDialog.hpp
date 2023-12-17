@@ -18,17 +18,20 @@ class SettingsDialog: public QDialog
 {
   Q_OBJECT
 public:
-  SettingsDialog(SettingsMemento memento, QWidget *parent);
+  SettingsDialog(QWidget *parent);
   const SettingsMemento &getMemento() const;
-  void setMemento(const SettingsMemento &memento);
-  // Use after setMemento()
   void updateUi();
   void apply();
+  virtual void accept() override;
+  virtual void reject() override;
 
   ~SettingsDialog();
 
 signals:
   void applySig();
+
+protected:
+  virtual void closeEvent(QCloseEvent *e) override;
 
 private:
   friend class SettingsMemento;
